@@ -18,6 +18,42 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ItemActivity"
+            android:label="ItemActivity">
+        </activity>
+        <activity
+            android:name=".ItemListActivity"
+            android:label="ItemListActivity">
+        </activity>
+        <activity
+            android:name=".JoinActivity"
+            android:label="JoinActivity">
+        </activity>
+        <activity
+            android:name=".LoadingActivity"
+            android:label="LoadingActivity">
+        </activity>
+        <activity
+            android:name=".MyprofileActivity"
+            android:label="MyprofileActivity">
+        </activity>
+        <activity
+            android:name=".NoticeActivity"
+            android:label="NoticeActivity">
+        </activity>
+        <activity
+            android:name=".NoticeListActivity"
+            android:label="NoticeListActivity">
+        </activity>
+        <activity
+            android:name=".NotificationActivity"
+            android:label="NotificationActivity">
+        </activity>
+        <activity
+            android:name=".OrderDetailsActivity"
+            android:label="OrderDetailsActivity">
+        </activity>
     </application>
 
 </manifest>

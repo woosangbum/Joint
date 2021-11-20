@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_item.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_item_list.xml" value="0.264" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_join.xml" value="0.1703125" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_loading.xml" value="0.1703125" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_myprofile.xml" value="0.1703125" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notice.xml" value="0.1703125" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notice_list.xml" value="0.1703125" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notification.xml" value="0.1703125" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_order_details.xml" value="0.1703125" />
         <entry key="app/src/main/res/layout/activity_item_details.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_item_list.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_join.xml" value="0.246875" />

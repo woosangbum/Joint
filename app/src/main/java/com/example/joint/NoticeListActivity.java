@@ -39,33 +39,9 @@ public class NoticeListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notice_list);
 
         notice_view = (ListView) findViewById(R.id.noticeView);
-        Log.d("dkdkdkkdkdkdkdkkd", "key: ");
-        Log.e("dkdkdkkdkdkdkdkkd", "key: ");
-        System.out.println("hello");
         showNoticeList();
-//        showNoticeList2();
     }
 
-    private void showNoticeList2() {
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        notice_view.setAdapter(adapter);
-        notice_view.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-
-        // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
-        databaseReference.child("notice_list").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-    }
 
     private void showNoticeList() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
@@ -113,7 +89,7 @@ public class NoticeListActivity extends AppCompatActivity {
 
 
     public void onClickNotice(View v){
-        Intent intent = new Intent(NoticeListActivity.this, NoticeActivity.class);
+        Intent intent = new Intent(NoticeListActivity.this, NoticeListActivity.class);
         startActivity(intent);
     }
 

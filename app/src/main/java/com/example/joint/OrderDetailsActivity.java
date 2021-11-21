@@ -14,7 +14,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_details);
     }
     public void onClickNotice(View v){
-        Intent intent = new Intent(OrderDetailsActivity.this, NoticeActivity.class);
+        Intent intent = new Intent(OrderDetailsActivity.this, NoticeListActivity.class);
         startActivity(intent);
     }
 

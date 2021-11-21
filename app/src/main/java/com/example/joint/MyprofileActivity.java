@@ -14,7 +14,7 @@ public class MyprofileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_myprofile);
     }
     public void onClickNotice(View v){
-        Intent intent = new Intent(MyprofileActivity.this, NoticeActivity.class);
+        Intent intent = new Intent(MyprofileActivity.this, NoticeListActivity.class);
         startActivity(intent);
     }
 

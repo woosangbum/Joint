@@ -14,7 +14,7 @@ public class NoticeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notice);
     }
     public void onClickNotice(View v){
-        Intent intent = new Intent(NoticeActivity.this, NoticeActivity.class);
+        Intent intent = new Intent(NoticeActivity.this, NoticeListActivity.class);
         startActivity(intent);
     }
 

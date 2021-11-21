@@ -14,7 +14,7 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
     }
     public void onClickNotice(View v){
-        Intent intent = new Intent(LoadingActivity.this, NoticeActivity.class);
+        Intent intent = new Intent(LoadingActivity.this, NoticeListActivity.class);
         startActivity(intent);
     }
 

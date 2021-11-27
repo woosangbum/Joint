@@ -20,9 +20,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_myprofile.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_notice.xml" value="0.246875" />
-        <entry key="app/src/main/res/layout/activity_notice_list.xml" value="0.10249307479224377" />
+        <entry key="app/src/main/res/layout/activity_notice_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_notification.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.24791666666666667" />
+        <entry key="app/src/main/res/layout/listview_notice_item.xml" value="0.1933876811594203" />
       </map>
     </option>
   </component>

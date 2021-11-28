@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class NoticeListViewAdapter extends BaseAdapter {
     private ArrayList<NoticeItem> listViewItemList = new ArrayList<NoticeItem>() ;
+
 
     public void ListViewAdapter() {
 
@@ -59,11 +62,13 @@ public class NoticeListViewAdapter extends BaseAdapter {
         return listViewItemList.get(0).getTitle() ;
     }
 
-    public void addItem(String title, String date) {
+    public void addItem(String id, String title, String date, String content) {
         NoticeItem item = new NoticeItem();
 
+        item.setId(id);
         item.setTitle(title);
         item.setDate(date);
+        item.setContent(content);
 
         listViewItemList.add(item);
     }

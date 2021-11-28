@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,19 +15,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class NoticeListActivity extends AppCompatActivity {
     // 공시사항 리스트
-
     private ListView notice_view;
     NoticeListViewAdapter adapter;
-//    ArrayAdapter<NoticeItem> adapter;
-//    SimpleAdapter adapter;
-//    String [] keys ={"title","date"};
-//    int [] ids = {android.R.id.text1,android.R.id.text2};
-//    ArrayList<HashMap<String,String>> noticeList = new ArrayList<HashMap<String,String>>();
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -40,33 +30,40 @@ public class NoticeListActivity extends AppCompatActivity {
 
         notice_view = (ListView) findViewById(R.id.noticeListView);
         showNoticeList();
+
+        notice_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent( getApplicationContext(), NoticeActivity.class);
+
+                // intent 객체에 데이터를 실어서 보내기
+                NoticeItem item = (NoticeItem) adapter.getItem(position);
+                intent.putExtra("title", item.getTitle());
+                intent.putExtra("content", item.getContent());
+                intent.putExtra("date", item.getDate());
+
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void showNoticeList() {
-//        adapter = new ArrayAdapter<NoticeItem>(this, android.R.layout.simple_list_item_1);
-//        notice_view.setAdapter(adapter);
-//        adapter = new SimpleAdapter(this,noticeList,android.R.layout.simple_list_item_2, keys, ids);
         adapter = new NoticeListViewAdapter();
         notice_view.setAdapter(adapter);
-//        Log.d("adapter", notice_view.setAdapter());
-
-//        notice_view.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
         // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
         databaseReference.child("notice_list").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String id = dataSnapshot.getValue().toString();
+//                Log.d("id", id);
                 String title = dataSnapshot.child("title").getValue().toString();
                 String date = dataSnapshot.child("date").getValue().toString();
-//                HashMap<String,String> item = new HashMap<String, String>();
-//                item.put("title", title);
-//                item.put("date", date);
-//                noticeList.add(item);
-//                Log.d("list", noticeList.toString());
-                adapter.addItem(title, date);
+                String content = dataSnapshot.child("content").getValue().toString();
+
+                adapter.addItem(id, title, date, content);
                 adapter.notifyDataSetChanged();
-//                Log.d("adapter", adapter.getItemTitle());
-//                Log.d("adapter", adapter.getCountString());
             }
 
             @Override

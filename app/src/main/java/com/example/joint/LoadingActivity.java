@@ -18,13 +18,4 @@ public class LoadingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickMyProfile(View v){
-        Intent intent = new Intent(LoadingActivity.this, MyprofileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotification(View v){
-        Intent intent = new Intent(LoadingActivity.this, NotificationActivity.class);
-        startActivity(intent);
-    }
 }

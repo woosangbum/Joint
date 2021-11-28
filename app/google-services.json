@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1097942965644",
+    "firebase_url": "https://joint-287b0-default-rtdb.firebaseio.com",
     "project_id": "joint-287b0",
     "storage_bucket": "joint-287b0.appspot.com"
   },
@@ -43,5 +44,6 @@
       }
     }
   ],
-  "configuration_version": "1"
+  "configuration_version": "1",
+
 }

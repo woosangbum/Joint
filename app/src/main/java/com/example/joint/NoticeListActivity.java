@@ -48,7 +48,9 @@ public class NoticeListActivity extends AppCompatActivity {
 //        adapter = new SimpleAdapter(this,noticeList,android.R.layout.simple_list_item_2, keys, ids);
         adapter = new NoticeListViewAdapter();
         notice_view.setAdapter(adapter);
-        notice_view.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//        Log.d("adapter", notice_view.setAdapter());
+
+//        notice_view.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
         // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
         databaseReference.child("notice_list").addChildEventListener(new ChildEventListener() {
@@ -62,7 +64,9 @@ public class NoticeListActivity extends AppCompatActivity {
 //                noticeList.add(item);
 //                Log.d("list", noticeList.toString());
                 adapter.addItem(title, date);
-                Log.d("ad", adapter.getItem(0).toString());
+                adapter.notifyDataSetChanged();
+//                Log.d("adapter", adapter.getItemTitle());
+//                Log.d("adapter", adapter.getCountString());
             }
 
             @Override

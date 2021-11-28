@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/myProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickMyProfile"
+        android:layout_marginTop="620dp"
+        android:layout_marginLeft="215dp"
+        android:text="프로필" />
+    <Button
+        android:id="@+id/mainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="620dp"
+        android:layout_marginLeft="15dp"
+        android:text="홈"/>
+
+    <Button
+        android:id="@+id/noticeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickNotice"
+        android:layout_marginTop="620dp"
+        android:layout_marginLeft="115dp"
+        android:text="공지사항" />
+
+    <Button
+        android:id="@+id/notificationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="620dp"
+        android:layout_marginLeft="315dp"
+        android:onClick="onClickNotification"
+        android:text="알림"/>
+
     <ListView
         android:id="@+id/noticeListView"
         android:layout_width="match_parent"
-        android:layout_height="376dp"
-        android:layout_marginTop="104dp">
+        android:layout_height="359dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="87dp">
 
     </ListView>
-
-<!--    <Button-->
-<!--        android:id="@+id/myProfileButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="onClickMyProfile"-->
-<!--        android:text="프로필" />-->
-<!--    <Button-->
-<!--        android:id="@+id/mainButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="홈"/>-->
-
-<!--    <Button-->
-<!--        android:id="@+id/noticeButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="onClickNotice"-->
-<!--        android:text="공지사항" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/notificationButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="-480dp"-->
-<!--        android:onClick="onClickNotification"-->
-<!--        android:text="알림"/>-->
 
     <TextView
         android:id="@+id/textView"
@@ -47,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="공지사항"
+        android:layout_marginLeft="15dp"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -54,7 +65,7 @@
         android:id="@+id/view"
         android:layout_width="1000px"
         android:layout_height="2px"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="15dp"
         android:background="#534F4F" />
 </RelativeLayout>
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

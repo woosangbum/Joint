@@ -1,6 +1,7 @@
 package com.example.joint;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ public class NoticeListViewAdapter extends BaseAdapter {
     public int getCount() {
         return listViewItemList.size() ;
     }
+    public String getCountString() {
+        return String.valueOf(listViewItemList.size());
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -37,7 +41,7 @@ public class NoticeListViewAdapter extends BaseAdapter {
         NoticeItem listViewItem = listViewItemList.get(position);
 
         titleTextView.setText(listViewItem.getTitle());
-        dateTextView.setText(listViewItem.getTitle());
+        dateTextView.setText(listViewItem.getDate());
 
         return convertView;
     }
@@ -50,6 +54,9 @@ public class NoticeListViewAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return listViewItemList.get(position) ;
+    }
+    public String getItemTitle() {
+        return listViewItemList.get(0).getTitle() ;
     }
 
     public void addItem(String title, String date) {

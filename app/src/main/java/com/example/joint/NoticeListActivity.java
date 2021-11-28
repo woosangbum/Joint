@@ -94,6 +94,10 @@ public class NoticeListActivity extends AppCompatActivity {
 
 
 
+    public void onClickHome(View v){
+        Intent intent = new Intent(NoticeListActivity.this, ItemListActivity.class);
+        startActivity(intent);
+    }
 
     public void onClickNotice(View v){
         Intent intent = new Intent(NoticeListActivity.this, NoticeListActivity.class);

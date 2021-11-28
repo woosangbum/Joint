@@ -113,7 +113,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnCompleteListener(this, task -> {
                     if(task.isSuccessful()){
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        User user = new User(email, name, phoneNumber);
+                        User user = new User(name, phoneNumber, email, studentId);
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference reference = database.getReference("user");
                         reference.child(studentId).setValue(user);

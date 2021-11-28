@@ -13,6 +13,12 @@ public class ItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
     }
+
+    public void onClickHome(View v){
+        Intent intent = new Intent(ItemActivity.this, ItemListActivity.class);
+        startActivity(intent);
+    }
+
     public void onClickNotice(View v){
         Intent intent = new Intent(ItemActivity.this, NoticeListActivity.class);
         startActivity(intent);

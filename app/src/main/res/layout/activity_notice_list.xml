@@ -13,13 +13,15 @@
         android:layout_marginTop="620dp"
         android:layout_marginLeft="215dp"
         android:text="프로필" />
+
     <Button
         android:id="@+id/mainButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="620dp"
         android:layout_marginLeft="15dp"
-        android:text="홈"/>
+        android:layout_marginTop="620dp"
+        android:onClick="onClickHome"
+        android:text="홈" />
 
     <Button
         android:id="@+id/noticeButton"

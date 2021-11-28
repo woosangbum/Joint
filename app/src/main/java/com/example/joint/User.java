@@ -1,19 +1,24 @@
 package com.example.joint;
 
 public class User {
-    private String email;
     private String name;
     private String phoneNumber;
+    private String email;
+    private String studentId;
 
-    public User(String email, String name, String phoneNumber){
-        this.email = email;
+    public User(String name, String phoneNumber, String email, String studentId){
         this.name = name;
+        this.email = email;
         this.phoneNumber = phoneNumber;
+        this.studentId = studentId;
+    }
+    public String getStudentId(){return studentId;}
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public String getEmail(){
-        return email;
-    }
+    public String getEmail(){ return email; }
 
     public void setEmail(String email){
         this.email = email;

@@ -47,9 +47,9 @@
         android:layout_height="359dp"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="87dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="87dp">
+        android:layout_marginBottom="15dp">
 
     </ListView>
 
@@ -67,7 +67,7 @@
         android:id="@+id/view"
         android:layout_width="1000px"
         android:layout_height="2px"
-        android:layout_marginTop="70dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="70dp"
         android:background="#534F4F" />
 </RelativeLayout>

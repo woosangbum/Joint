@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class NoticeListViewAdapter extends BaseAdapter {
-    private ArrayList<NoticeItem> listViewItemList = new ArrayList<NoticeItem>() ;
+public class ItemListViewAdapter extends BaseAdapter {
+    private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
 
 
     public void ListViewAdapter() {
@@ -32,16 +33,19 @@ public class NoticeListViewAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.listview_notice_item, parent, false);
+            convertView = inflater.inflate(R.layout.listview_item, parent, false);
         }
 
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.view_notice_title) ;
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.view_notice_date) ;
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
+        TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
 
-        NoticeItem listViewItem = listViewItemList.get(position);
 
-        titleTextView.setText(listViewItem.getTitle());
-        dateTextView.setText(listViewItem.getDate());
+        Item listViewItem = listViewItemList.get(position);
+
+        nameTextView.setText(listViewItem.getName());
+        deadlineDateTextView.setText(listViewItem.getDeadlineDate());
+        imageView.setImageResource(listViewItem.getIcon());
 
         return convertView;
     }
@@ -55,17 +59,14 @@ public class NoticeListViewAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return listViewItemList.get(position) ;
     }
-    public String getItemTitle() {
-        return listViewItemList.get(0).getTitle() ;
-    }
 
-    public void addItem(String id, String title, String date, String content) {
-        NoticeItem item = new NoticeItem();
+    public void addItem(String id, String name, String deadlineDate, int icon) {
+        Item item = new Item();
 
         item.setId(id);
-        item.setTitle(title);
-        item.setDate(date);
-        item.setContent(content);
+        item.setName(name);
+        item.setDeadlineDate(deadlineDate);
+        item.setIcon(icon);
 
         listViewItemList.add(item);
     }

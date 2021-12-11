@@ -3,6 +3,8 @@ package com.example.joint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +14,14 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+
+
+        TextView tvName = (TextView)findViewById(R.id.item_name);
+        ImageView img = (ImageView)findViewById(R.id.itemImageView);
+
+        Intent intent = getIntent(); // 보내온 Intent를 얻는다
+        tvName.setText(intent.getStringExtra("name"));
+        img.setImageResource(Integer.parseInt(intent.getStringExtra("icon")));
     }
 
     public void onClickHome(View v){

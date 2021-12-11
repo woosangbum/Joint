@@ -21,7 +21,7 @@ public class ItemActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); // 보내온 Intent를 얻는다
         tvName.setText(intent.getStringExtra("name"));
-        img.setImageResource(Integer.parseInt(intent.getStringExtra("icon")));
+//        img.setImageResource(Integer.parseInt(intent.getStringExtra("icon")));
     }
 
     public void onClickHome(View v){

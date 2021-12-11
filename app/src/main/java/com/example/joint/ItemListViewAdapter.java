@@ -45,7 +45,7 @@ public class ItemListViewAdapter extends BaseAdapter {
 
         nameTextView.setText(listViewItem.getName());
         deadlineDateTextView.setText(listViewItem.getDeadlineDate());
-        imageView.setImageResource(listViewItem.getIcon());
+//        imageView.setImageResource(listViewItem.getIcon());
 
         return convertView;
     }
@@ -60,13 +60,13 @@ public class ItemListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position) ;
     }
 
-    public void addItem(String id, String name, String deadlineDate, int icon) {
-        Item item = new Item();
+    public void addItem(String id, String name, String deadlineDate) {
+        Item item = new Item(id, name, deadlineDate);
 
-        item.setId(id);
-        item.setName(name);
-        item.setDeadlineDate(deadlineDate);
-        item.setIcon(icon);
+//        item.setId(id);
+//        item.setName(name);
+//        item.setDeadlineDate(deadlineDate);
+//        item.setIcon(icon);
 
         listViewItemList.add(item);
     }

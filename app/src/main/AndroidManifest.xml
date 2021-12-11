@@ -11,15 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Joint">
-        <activity
-            android:name=".MainActivity"
+
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".LoadingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ItemActivity"
             android:label="ItemActivity">
@@ -32,10 +33,7 @@
             android:name=".JoinActivity"
             android:label="JoinActivity">
         </activity>
-        <activity
-            android:name=".LoadingActivity"
-            android:label="LoadingActivity">
-        </activity>
+
         <activity
             android:name=".MyprofileActivity"
             android:label="MyprofileActivity">
@@ -55,6 +53,10 @@
         <activity
             android:name=".OrderDetailsActivity"
             android:label="OrderDetailsActivity">
+        </activity>
+        <activity
+            android:name=".ItemRegisterActivtiy"
+            android:label="ItemRegisterActivtiy">
         </activity>
     </application>
 

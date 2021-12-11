@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -57,11 +58,11 @@ public class ItemListActivity extends AppCompatActivity {
                 String id = dataSnapshot.getValue().toString();
 //              Log.d("id", id);
                 String name = dataSnapshot.child("name").getValue().toString();
-//              String icon = dataSnapshot.child("date").getValue().toString();
+//                String icon = dataSnapshot.child("icon").getValue().toString();
                 String deadlineDate = dataSnapshot.child("deadlineDate").getValue().toString();
-                int icon = Integer.parseInt(dataSnapshot.child("icon").getValue().toString());
-
-                adapter.addItem(id, name, deadlineDate, icon);
+//                int icon = Integer.parseInt(dataSnapshot.child("icon").getValue().toString());
+                String icon = dataSnapshot.child("icon").getValue().toString();
+                adapter.addItem(id, name, deadlineDate);
                 adapter.notifyDataSetChanged();
             }
 
@@ -88,8 +89,9 @@ public class ItemListActivity extends AppCompatActivity {
 
     }
     public void addPost(View v){
-        Intent intent = new Intent(ItemListActivity.this, NoticeListActivity.class);
+        Intent intent = new Intent(ItemListActivity.this, ItemRegisterActivtiy.class);
         startActivity(intent);
+//        Toast.makeText(getApplicationContext(), "addPost 클릭", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickHome(View v){
@@ -112,3 +114,39 @@ public class ItemListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+//package com.example.joint;
+//
+//import android.content.Intent;
+//import android.os.Bundle;
+//import android.view.View;
+//
+//import androidx.appcompat.app.AppCompatActivity;
+//
+//public class ItemListActivity extends AppCompatActivity {
+//    // 물품 리스트
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_item_list);
+//    }
+//
+//    public void onClickHome(View v){
+//        Intent intent = new Intent(ItemListActivity.this, ItemListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotice(View v){
+//        Intent intent = new Intent(ItemListActivity.this, NoticeListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickMyProfile(View v){
+//        Intent intent = new Intent(ItemListActivity.this, MyprofileActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotification(View v){
+//        Intent intent = new Intent(ItemListActivity.this, NotificationActivity.class);
+//        startActivity(intent);
+//    }
+//}

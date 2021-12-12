@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +23,7 @@ public class NoticeListActivity extends AppCompatActivity {
     // 공시사항 리스트
     private ListView notice_view;
     NoticeListViewAdapter adapter;
+    Button noticeRegisterButton;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -28,6 +32,16 @@ public class NoticeListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_list);
+
+        //유저의 이메일 가져오기
+        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = userDB.getEmail().trim();
+        //유저의 이메일이 root@koreatech.ac.kr(관리자)가 아니면 게시글 작성 버튼 숨기기
+        if(!userEmail.equals(getString(R.string.root))) {
+            noticeRegisterButton = findViewById(R.id.noticeRegisterButton);
+            noticeRegisterButton.setVisibility(View.INVISIBLE);
+            noticeRegisterButton.setEnabled(false);
+        }
 
         notice_view = (ListView) findViewById(R.id.noticeListView);
         showNoticeList();

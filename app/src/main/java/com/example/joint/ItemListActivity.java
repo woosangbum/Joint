@@ -2,13 +2,17 @@ package com.example.joint;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +24,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     private ListView item_view;
     ItemListViewAdapter adapter;
+    Button itemRegisterButton;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -28,6 +33,16 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        //유저의 이메일 가져오기
+        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = userDB.getEmail().trim();
+        //유저의 이메일이 root@koreatech.ac.kr(관리자)가 아니면 게시글 작성 버튼 숨기기
+        if(!userEmail.equals(getString(R.string.root))) {
+            itemRegisterButton = findViewById(R.id.itemRegisterButton);
+            itemRegisterButton.setVisibility(View.INVISIBLE);
+            itemRegisterButton.setEnabled(false);
+        }
 
         item_view = (ListView) findViewById(R.id.itemListView);
         showItemList();
@@ -89,6 +104,8 @@ public class ItemListActivity extends AppCompatActivity {
 
     }
     public void addPost(View v){
+
+
         Intent intent = new Intent(ItemListActivity.this, ItemRegisterActivtiy.class);
         startActivity(intent);
 //        Toast.makeText(getApplicationContext(), "addPost 클릭", Toast.LENGTH_SHORT).show();

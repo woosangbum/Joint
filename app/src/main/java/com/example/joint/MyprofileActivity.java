@@ -29,6 +29,7 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+
     private FirebaseAuth firebaseAuth;
     private Button buttonLogout;
     private TextView textviewDelete;
@@ -52,27 +53,45 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
 
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = userDB.getEmail().trim();
-        FirebaseDatabase.getInstance().getReference().child("user").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if(userEmail.equals(snapshot.child("email").getValue().toString())) {
-                        textViewProfilePhoneNumber.setText(snapshot.child("phoneNumber").getValue().toString());
-                        textViewProfileEmail.setText(snapshot.child("email").getValue().toString());
-                        textViewProfileName.setText(snapshot.child("name").getValue().toString());
+
+        //관리자이면 주문내역 버튼과 이름만 보이도록(이메일, 핸드폰 번호 제외) 설정 변경
+        if(userEmail.equals(getString(R.string.root))){
+            Button buttonOrder = findViewById(R.id.buttonOrder);
+            TextView textView7 = findViewById(R.id.textView7);
+            TextView textView8 = findViewById(R.id.textView8);
+
+            textView7.setVisibility(View.INVISIBLE);
+            textView8.setVisibility(View.INVISIBLE);
+            textViewProfileEmail.setVisibility(View.INVISIBLE);
+            textViewProfilePhoneNumber.setVisibility(View.INVISIBLE);
+
+            textView7.setEnabled(false);
+            textView8.setEnabled(false);
+            textViewProfileEmail.setEnabled(false);
+            textViewProfilePhoneNumber.setEnabled(false);
+
+            textViewProfileName.setText("관리자");
+            buttonOrder.setText("주문 내역");
+        }
+        else {
+            FirebaseDatabase.getInstance().getReference().child("user").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if (userEmail.equals(snapshot.child("email").getValue().toString())) {
+                            textViewProfilePhoneNumber.setText(snapshot.child("phoneNumber").getValue().toString());
+                            textViewProfileEmail.setText(snapshot.child("email").getValue().toString());
+                            textViewProfileName.setText(snapshot.child("name").getValue().toString());
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
-//        textViewProfileName.setText(name);
-//        textViewPhoneNumber.setText(phoneNumber);
-//        textViewEmail.setText(email);
+                }
+            });
+        }
 
         buttonLogout.setOnClickListener(this);
     }

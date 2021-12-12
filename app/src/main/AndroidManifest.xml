@@ -58,6 +58,10 @@
             android:name=".ItemRegisterActivtiy"
             android:label="ItemRegisterActivtiy">
         </activity>
+        <activity
+            android:name=".NoticeRegisterActivity"
+            android:label="NoticeRegisterActivity">
+        </activity>
     </application>
 
 </manifest>

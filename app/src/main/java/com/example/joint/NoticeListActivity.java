@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,6 +49,8 @@ public class NoticeListActivity extends AppCompatActivity {
 
     }
 
+
+
     private void showNoticeList() {
         adapter = new NoticeListViewAdapter();
         notice_view.setAdapter(adapter);
@@ -89,7 +92,10 @@ public class NoticeListActivity extends AppCompatActivity {
 
     }
 
-
+    public void noticeRegisterButton(View v){
+        Intent intent = new Intent(NoticeListActivity.this, NoticeRegisterActivity.class);
+        startActivity(intent);
+    }
 
     public void onClickHome(View v){
         Intent intent = new Intent(NoticeListActivity.this, ItemListActivity.class);

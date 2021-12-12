@@ -51,14 +51,17 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         TextView textViewProfileEmail = findViewById(R.id.textViewProfileEmail);
 
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = userDB.getEmail();
+        String userEmail = userDB.getEmail().trim();
         FirebaseDatabase.getInstance().getReference().child("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Log.d("userEmail", snapshot.child("email").getValue().toString());
+                    Log.d("userEmail2", userEmail.trim());
+                    Log.d("userEmail-phoneNum", snapshot.child("phoneNumber").getValue().toString());
+                    Log.d("userEmail-name", snapshot.child("name").getValue().toString());
                     if(userEmail.equals(snapshot.child("email").getValue().toString())) {
-                        Log.d("success", snapshot.getValue().toString());
-                        snapshot.child("email").getValue().toString();
+                        Log.d("aaaaaaaaaaa", "userEmail Success");
                         textViewProfilePhoneNumber.setText(snapshot.child("phoneNumber").getValue().toString());
                         textViewProfileEmail.setText(snapshot.child("email").getValue().toString());
                         textViewProfileName.setText(snapshot.child("name").getValue().toString());

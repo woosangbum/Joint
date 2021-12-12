@@ -112,7 +112,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if(task.isSuccessful()){
-                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         User user = new User(name, phoneNumber, email, studentId);
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference reference = database.getReference("user");

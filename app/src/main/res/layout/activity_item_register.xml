@@ -17,7 +17,7 @@
             android:text="제목" />
 
         <EditText
-            android:id="@+id/title_et"
+            android:id="@+id/editTextRegisterTitle"
             android:padding="16dp"
             android:background="#eeeeee"
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
         android:text="내용"/>
 
     <EditText
-        android:id="@+id/content_et"
+        android:id="@+id/editTextContent"
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

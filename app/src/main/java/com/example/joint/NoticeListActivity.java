@@ -65,7 +65,7 @@ public class NoticeListActivity extends AppCompatActivity {
                 String date = dataSnapshot.child("date").getValue().toString();
                 String content = dataSnapshot.child("content").getValue().toString();
 
-                adapter.addItem(id, title, date, content);
+                adapter.addItem(title, date, content);
                 adapter.notifyDataSetChanged();
             }
 

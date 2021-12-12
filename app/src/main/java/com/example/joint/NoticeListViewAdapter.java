@@ -59,14 +59,8 @@ public class NoticeListViewAdapter extends BaseAdapter {
         return listViewItemList.get(0).getTitle() ;
     }
 
-    public void addItem(String id, String title, String date, String content) {
-        NoticeItem item = new NoticeItem();
-
-        item.setId(id);
-        item.setTitle(title);
-        item.setDate(date);
-        item.setContent(content);
-
+    public void addItem(String title, String date, String content) {
+        NoticeItem item = new NoticeItem(title, date, content);
         listViewItemList.add(item);
     }
 }

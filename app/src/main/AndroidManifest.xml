@@ -62,6 +62,14 @@
             android:name=".NoticeRegisterActivity"
             android:label="NoticeRegisterActivity">
         </activity>
+        <activity
+            android:name=".UserPurchaseHistoryActivity"
+            android:label="UserPurchaseHistoryActivity">
+        </activity>
+        <activity
+            android:name=".RootOrderHistoryActivity"
+            android:label="RootOrderHistoryActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class NoticeRegisterActivity extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth firebaseAuth;
@@ -66,7 +67,9 @@ public class NoticeRegisterActivity extends AppCompatActivity implements View.On
             return;
         }
 
-        NoticeItem noticeItem = new NoticeItem(title, LocalDate.now().toString(), content);
+        String date = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
+                LocalDate.now().getDayOfMonth() + "일 "+ LocalTime.now().getHour() + "시 " + LocalTime.now().getMinute() + "분";
+        NoticeItem noticeItem = new NoticeItem(title, date, content);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("notice_list");
         reference.child(id).setValue(noticeItem);

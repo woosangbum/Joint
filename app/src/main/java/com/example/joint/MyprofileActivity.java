@@ -34,6 +34,9 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
     private Button buttonLogout;
     private TextView textviewDelete;
 
+    private FirebaseUser userDB;
+    private String userEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +54,8 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         TextView textViewProfilePhoneNumber = findViewById(R.id.textViewProfilePhoneNumber);
         TextView textViewProfileEmail = findViewById(R.id.textViewProfileEmail);
 
-        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = userDB.getEmail().trim();
+        userDB = FirebaseAuth.getInstance().getCurrentUser();
+        userEmail = userDB.getEmail().trim();
 
         //관리자이면 주문내역 버튼과 이름만 보이도록(이메일, 핸드폰 번호 제외) 설정 변경
         if(userEmail.equals(getString(R.string.root))){
@@ -94,6 +97,19 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         }
 
         buttonLogout.setOnClickListener(this);
+    }
+
+    // 관리자 - 주문 내역 액티비티(RootOrderHistoryActivity), 사용자 - 구매 내역 액티비티(UserPurchaseHistoryActivity)
+    public void onClickOrder(View v){
+        // 주문내역(관리자)
+        if(userEmail.equals(getString(R.string.root))) {
+            Intent intent = new Intent(MyprofileActivity.this, RootOrderHistoryActivity.class);
+            startActivity(intent);
+        // 구매내역(사용자)
+        }else{
+            Intent intent = new Intent(MyprofileActivity.this, UserPurchaseHistoryActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void onClickHome(View v){

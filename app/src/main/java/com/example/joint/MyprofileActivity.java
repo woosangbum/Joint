@@ -36,6 +36,7 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
 
     private FirebaseUser userDB;
     private String userEmail;
+    private String studentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
                             textViewProfilePhoneNumber.setText(snapshot.child("phoneNumber").getValue().toString());
                             textViewProfileEmail.setText(snapshot.child("email").getValue().toString());
                             textViewProfileName.setText(snapshot.child("name").getValue().toString());
+                            studentId = snapshot.child("studentId").getValue().toString();
                         }
                     }
                 }
@@ -108,6 +110,7 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         // 구매내역(사용자)
         }else{
             Intent intent = new Intent(MyprofileActivity.this, UserPurchaseHistoryActivity.class);
+            intent.putExtra("student_id", studentId);
             startActivity(intent);
         }
     }

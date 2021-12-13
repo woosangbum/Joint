@@ -12,32 +12,38 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-//import com.bumptech.glide.Glide;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class ItemListViewAdapter extends BaseAdapter {
-    private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
+public class UserPurchaseListViewAdapter extends BaseAdapter {
+    private ArrayList<UserPurchase> listViewUserPurchaseList = new ArrayList<>() ;
     Context context;
 
-    public void ListViewAdapter(Context context) {
+    public void UserPurchaseListViewAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return listViewItemList.size() ;
-    }
-    public String getCountString() {
-        return String.valueOf(listViewItemList.size());
+        return listViewUserPurchaseList.size() ;
     }
 
+    @Override
+    public Object getItem(int position) {
+        return listViewUserPurchaseList.get(position) ;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position ;
+    }
+
+    // 이미지, 물품id -> 물품 아이콘, 물품 이름, 물품 텍스트, 구매날짜, 개수
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
@@ -53,7 +59,7 @@ public class ItemListViewAdapter extends BaseAdapter {
         TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
 
 
-        Item listViewItem = listViewItemList.get(position);
+        UserPurchase listViewItem = listViewUserPurchaseList.get(position);
         nameTextView.setText(listViewItem.getName());
         deadlineDateTextView.setText(listViewItem.getDeadlineDate());
 
@@ -68,29 +74,12 @@ public class ItemListViewAdapter extends BaseAdapter {
                                 .into(imageView);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(context.getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(context.getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return convertView;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position ;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return listViewItemList.get(position) ;
-    }
-
-    public void addItem(String id, String name, String icon, String deadlineDate,
-                        String content, String targetNum, String currNum, String price, String discountPrice, String creationDate) {
-        Item item = new Item(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
-
-        listViewItemList.add(item);
     }
 }

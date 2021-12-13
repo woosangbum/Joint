@@ -54,7 +54,7 @@ public class NoticeRegisterActivity extends AppCompatActivity implements View.On
     private void registerNoticePost(){
         String title = editTextRegisterTitle.getText().toString().trim();
         String content = editTextContent.getText().toString().trim();
-        String id = "id" + String.valueOf(noticeListCnt);
+        String id = "notice" + String.valueOf(noticeListCnt);
 
 
         if(TextUtils.isEmpty(title)){

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -21,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class UserPurchaseHistoryActivity extends AppCompatActivity {
     private ListView userPurchaseListView;
-    ItemListViewAdapter adapter;
+    UserPurchaseListViewAdapter adapter;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -34,11 +35,66 @@ public class UserPurchaseHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_purchase_history_list);
 
-        Intent intent = getIntent();
-        studentId = intent.getStringExtra("student_id");
+//        Intent intent = getIntent();
+//        studentId = intent.getStringExtra("student_id");
 
+        userPurchaseListView = (ListView) findViewById(R.id.userPurchaseListView);
+        Log.d("purchase", "1");
         showPurchaseList();
+        userPurchaseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent( getApplicationContext(), .class);
+//
+//                startActivity(intent);
+            }
+        });
+
     }
+    private void showPurchaseList() {
+        adapter = new UserPurchaseListViewAdapter();
+        userPurchaseListView.setAdapter(adapter);
+        Log.d("purchase", "2");
+//         데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
+        databaseReference.child("user_purchase").addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                // id, studentId, productId, productCount, productPrice, isReceipt, purchaseDate
+                String id = dataSnapshot.getKey();
+                String studentId = dataSnapshot.child("studentId").getValue().toString();
+                String productId = dataSnapshot.child("itemId").getValue().toString();
+                String productCount = dataSnapshot.child("productCount").getValue().toString();
+                String productPrice = dataSnapshot.child("productPrice").getValue().toString();
+                String isReceipt = dataSnapshot.child("isReceipt").getValue().toString();
+                String purchaseDate = dataSnapshot.child("purchaseDate").getValue().toString();
+
+                adapter.addItem(id, studentId, productId, productCount, productPrice, isReceipt, purchaseDate);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void onClickHome(View v){
         Intent intent = new Intent(UserPurchaseHistoryActivity.this, ItemListActivity.class);
         startActivity(intent);
@@ -59,66 +115,5 @@ public class UserPurchaseHistoryActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showPurchaseList() {
-        adapter = new ItemListViewAdapter();
-        userPurchaseListView.setAdapter(adapter);
 
-//        FirebaseDatabase.getInstance().getReference().child("item_list").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    if (userEmail.equals(snapshot.child("email").getValue().toString())) {
-//                        textViewProfilePhoneNumber.setText(snapshot.child("phoneNumber").getValue().toString());
-//                        textViewProfileEmail.setText(snapshot.child("email").getValue().toString());
-//                        textViewProfileName.setText(snapshot.child("name").getValue().toString());
-//                        studentId = snapshot.child("studentId").getValue().toString();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {}
-//        });
-//
-//        // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
-//        databaseReference.child("item_list").addChildEventListener(new ChildEventListener() {
-//
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                String id = dataSnapshot.getValue().toString();
-//                String name = dataSnapshot.child("name").getValue().toString();
-//                String icon = dataSnapshot.child("icon").getValue().toString();
-//                String deadlineDate = dataSnapshot.child("deadlineDate").getValue().toString();
-//                String content = dataSnapshot.child("content").getValue().toString();
-//                String targetNum = dataSnapshot.child("targetNum").getValue().toString();
-//                String currNum = dataSnapshot.child("currNum").getValue().toString();
-//                String price = dataSnapshot.child("price").getValue().toString();
-//                String discountPrice = dataSnapshot.child("discountPrice").getValue().toString();
-//                String creationDate = dataSnapshot.child("creationDate").getValue().toString();
-//
-//                adapter.addItem(id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-    }
 }

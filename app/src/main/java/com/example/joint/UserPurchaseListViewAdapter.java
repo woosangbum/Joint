@@ -46,42 +46,40 @@ public class UserPurchaseListViewAdapter extends BaseAdapter {
     // 이미지, 물품id -> 물품 아이콘, 물품 이름, 물품 텍스트, 구매날짜, 개수
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final int pos = position;
+        final Context context = parent.getContext();
+
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.listview_item, parent, false);
+        }
+
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
+        TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
+
+
+        UserPurchase listViewItem = listViewUserPurchaseList.get(position);
+        nameTextView.setText(listViewItem.getName());
+        deadlineDateTextView.setText(listViewItem.getDeadlineDate());
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        storageRef.child(listViewItem.getIcon()).getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(context.getApplicationContext())
+                                .load(uri)
+                                .into(imageView);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(context.getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return convertView;
     }
-//        final int pos = position;
-//        final Context context = parent.getContext();
-//
-//        if (convertView == null) {
-//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            convertView = inflater.inflate(R.layout.listview_item, parent, false);
-//        }
-//
-//        ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
-//        TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
-//        TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
-//
-//
-//        UserPurchase listViewItem = listViewUserPurchaseList.get(position);
-//        nameTextView.setText(listViewItem.getName());
-//        deadlineDateTextView.setText(listViewItem.getDeadlineDate());
-//
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageRef = storage.getReference();
-//        storageRef.child(listViewItem.getIcon()).getDownloadUrl()
-//                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Glide.with(context.getApplicationContext())
-//                                .load(uri)
-//                                .into(imageView);
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                Toast.makeText(context.getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        return convertView;
-//    }
 }

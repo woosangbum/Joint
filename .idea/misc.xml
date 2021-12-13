@@ -17,7 +17,6 @@
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_order_details.xml" value="0.1703125" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/listview_notice_item.xml" value="0.16197916666666667" />
-        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/listview_purchase.xml" value="0.11775362318840579" />
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.2930744848023002" />
         <entry key="app/src/main/res/layout/activity_item_details.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_item_list.xml" value="0.246875" />
@@ -30,7 +29,10 @@
         <entry key="app/src/main/res/layout/activity_notice_list.xml" value="0.10249307479224377" />
         <entry key="app/src/main/res/layout/activity_notification.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.24791666666666667" />
+        <entry key="app/src/main/res/layout/activity_user_purchase_history_list.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/listview_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/listview_notice_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/listview_purchase.xml" value="0.1" />
       </map>
     </option>
   </component>

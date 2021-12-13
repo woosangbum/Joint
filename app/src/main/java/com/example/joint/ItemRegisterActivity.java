@@ -84,6 +84,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
     StorageReference storageRef;
     StorageReference riversRef;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,9 +140,14 @@ public class ItemRegisterActivity extends AppCompatActivity {
         Log.d("uri", file.toString());
         UploadTask uploadTask = riversRef.putFile(file);
         itemListCnt++;
+
+        ((ItemListActivity)ItemListActivity.context).showItemList();
+
         Toast.makeText(ItemRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
         finish();
-        startActivity(new Intent(getApplicationContext(), ItemListActivity.class));
+        Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private boolean editTextCheck(String name, String content, String targetNum, String price, String discountPrice){

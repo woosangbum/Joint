@@ -1,5 +1,6 @@
 package com.example.joint;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ItemListActivity extends AppCompatActivity {
     // 물품 리스트
+    public static Context context;
 
     private ListView item_view;
     ItemListViewAdapter adapter;
@@ -32,7 +34,7 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-
+        context = this;
         //유저의 이메일 가져오기
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = userDB.getEmail().trim();
@@ -68,7 +70,7 @@ public class ItemListActivity extends AppCompatActivity {
         });
     }
 
-    private void showItemList() {
+    public void showItemList() {
         adapter = new ItemListViewAdapter();
         item_view.setAdapter(adapter);
 

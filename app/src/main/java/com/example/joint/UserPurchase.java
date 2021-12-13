@@ -3,7 +3,7 @@ package com.example.joint;
 public class UserPurchase {
     private String id; // 구매번호
     private String studentId; // 학번
-    private String productId; // 물품 Id
+    private String itemId; // 물품 Id
     private String productCount; // 구매 개수
     private String productPrice; // 가격
     private String isReceipt;
@@ -13,7 +13,7 @@ public class UserPurchase {
                 String productPrice, String isReceipt, String purchaseDate){
         this.id = id;
         this.studentId = studentId;
-        this.productId = productId;
+        this.itemId = productId;
         this.productCount = productCount;
         this.productPrice = productPrice;
         this.purchaseDate = purchaseDate;
@@ -22,7 +22,7 @@ public class UserPurchase {
 
     public void setId(String id) { this.id = id; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
-    public void setProductId(String productId) { this.productId = productId; }
+    public void setItemId(String itemId) { this.itemId = itemId; }
     public void setProductCount(String productCount) { this.productCount = productCount; }
     public void setProductPrice(String productPrice) { this.productPrice = productPrice; }
     public void setPurchaseDate(String purchaseDate) { this.purchaseDate = purchaseDate; }
@@ -33,6 +33,6 @@ public class UserPurchase {
     public String getIsReceipt() { return isReceipt; }
     public String getPurchaseDate() { return purchaseDate; }
     public String getProductPrice() { return productPrice; }
-    public String getProductId() { return productId; }
+    public String getItemId() { return itemId; }
     public String getProductCount() { return productCount; }
 }

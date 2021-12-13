@@ -30,6 +30,9 @@ public class ItemListActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+    private String id; //물품 id
+    private String itemId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,25 +51,23 @@ public class ItemListActivity extends AppCompatActivity {
         item_view = (ListView) findViewById(R.id.itemListView);
         showItemList();
 
-        item_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent( getApplicationContext(), ItemActivity.class);
+        item_view.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent( getApplicationContext(), ItemActivity.class);
 
-                // intent 객체에 데이터를 실어서 보내기
-                Item item = (Item) adapter.getItem(position);
-                intent.putExtra("name", item.getName());
-                intent.putExtra("icon", item.getIcon());
-                intent.putExtra("deadlineDate", item.getDeadlineDate());
-                intent.putExtra("content", item.getContent());
-                intent.putExtra("targetNum", item.getTargetNum());
-                intent.putExtra("currNum", item.getCurrNum());
-                intent.putExtra("price", item.getPrice());
-                intent.putExtra("discountPrice", item.getDiscountPrice());
-                intent.putExtra("creationDate", item.getCreationDate());
+            // intent 객체에 데이터를 실어서 보내기
+            Item item = (Item) adapter.getItem(position);
+            intent.putExtra("name", item.getName());
+            intent.putExtra("icon", item.getIcon());
+            intent.putExtra("deadlineDate", item.getDeadlineDate());
+            intent.putExtra("content", item.getContent());
+            intent.putExtra("targetNum", item.getTargetNum());
+            intent.putExtra("currNum", item.getCurrNum());
+            intent.putExtra("price", item.getPrice());
+            intent.putExtra("discountPrice", item.getDiscountPrice());
+            intent.putExtra("creationDate", item.getCreationDate());
+            intent.putExtra("itemId", item.getId());
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 
@@ -78,7 +79,7 @@ public class ItemListActivity extends AppCompatActivity {
         databaseReference.child("item_list").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String id = dataSnapshot.getValue().toString();
+                id = dataSnapshot.getValue().toString();
                 String name = dataSnapshot.child("name").getValue().toString();
                 String icon = dataSnapshot.child("icon").getValue().toString();
                 String deadlineDate = dataSnapshot.child("deadlineDate").getValue().toString();
@@ -88,8 +89,8 @@ public class ItemListActivity extends AppCompatActivity {
                 String price = dataSnapshot.child("price").getValue().toString();
                 String discountPrice = dataSnapshot.child("discountPrice").getValue().toString();
                 String creationDate = dataSnapshot.child("creationDate").getValue().toString();
-
-                adapter.addItem(id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
+                itemId = dataSnapshot.child("id").getValue().toString();
+                adapter.addItem(itemId, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
                 adapter.notifyDataSetChanged();
             }
 

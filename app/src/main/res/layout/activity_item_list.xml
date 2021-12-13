@@ -7,15 +7,15 @@
 
     <ListView
         android:id="@+id/itemListView"
-        android:layout_width="369dp"
-        android:layout_height="344dp"
+        android:layout_width="370dp"
+        android:layout_height="446dp"
         android:layout_alignParentTop="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.281">
+        app:layout_constraintVertical_bias="0.322">
 
     </ListView>
 
@@ -80,9 +80,9 @@
         android:text="작성하기"
         app:layout_constraintBottom_toTopOf="@+id/notificationButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.936"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemListView"
-        app:layout_constraintVertical_bias="0.792" />
+        app:layout_constraintVertical_bias="0.596" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

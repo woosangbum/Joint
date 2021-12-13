@@ -55,7 +55,7 @@
             android:label="OrderDetailsActivity">
         </activity>
         <activity
-            android:name=".ItemRegisterActivtiy"
+            android:name=".ItemRegisterActivity"
             android:label="ItemRegisterActivtiy">
         </activity>
         <activity

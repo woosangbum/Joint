@@ -4,27 +4,28 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_item.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_item_list.xml" value="0.2" />
-        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_item_register.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_item_list.xml" value="0.264" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_join.xml" value="0.1703125" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_loading.xml" value="0.14" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_myprofile.xml" value="0.264" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notice.xml" value="0.1703125" />
-        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notice_list.xml" value="0.152" />
-        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notice_register.xml" value="0.2" />
+        <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notice_list.xml" value="0.1703125" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_notification.xml" value="0.1703125" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_order_details.xml" value="0.1703125" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Users/pug/AndroidStudioProjects/Joint/app/src/main/res/layout/listview_notice_item.xml" value="0.16197916666666667" />
+        <entry key="app/src/main/res/layout/activity_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_item_details.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_item_list.xml" value="0.246875" />
+        <entry key="app/src/main/res/layout/activity_item_register.xml" value="0.20912547528517111" />
         <entry key="app/src/main/res/layout/activity_join.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_loading.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_myprofile.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_notice.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_notice_list.xml" value="0.10249307479224377" />
+        <entry key="app/src/main/res/layout/activity_notice_register.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_notification.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.24791666666666667" />
       </map>

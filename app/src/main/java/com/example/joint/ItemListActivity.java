@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,7 +39,14 @@ public class ItemListActivity extends AppCompatActivity {
                 // intent 객체에 데이터를 실어서 보내기
                 Item item = (Item) adapter.getItem(position);
                 intent.putExtra("name", item.getName());
+                intent.putExtra("icon", item.getIcon());
                 intent.putExtra("deadlineDate", item.getDeadlineDate());
+                intent.putExtra("content", item.getContent());
+                intent.putExtra("targetNum", item.getTargetNum());
+                intent.putExtra("currNum", item.getCurrNum());
+                intent.putExtra("price", item.getPrice());
+                intent.putExtra("discountPrice", item.getDiscountPrice());
+                intent.putExtra("creationDate", item.getCreationDate());
 
                 startActivity(intent);
             }
@@ -56,13 +62,17 @@ public class ItemListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String id = dataSnapshot.getValue().toString();
-//              Log.d("id", id);
                 String name = dataSnapshot.child("name").getValue().toString();
-//                String icon = dataSnapshot.child("icon").getValue().toString();
-                String deadlineDate = dataSnapshot.child("deadlineDate").getValue().toString();
-//                int icon = Integer.parseInt(dataSnapshot.child("icon").getValue().toString());
                 String icon = dataSnapshot.child("icon").getValue().toString();
-                adapter.addItem(id, name, deadlineDate);
+                String deadlineDate = dataSnapshot.child("deadlineDate").getValue().toString();
+                String content = dataSnapshot.child("content").getValue().toString();
+                String targetNum = dataSnapshot.child("targetNum").getValue().toString();
+                String currNum = dataSnapshot.child("currNum").getValue().toString();
+                String price = dataSnapshot.child("price").getValue().toString();
+                String discountPrice = dataSnapshot.child("discountPrice").getValue().toString();
+                String creationDate = dataSnapshot.child("creationDate").getValue().toString();
+
+                adapter.addItem(id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
                 adapter.notifyDataSetChanged();
             }
 
@@ -89,7 +99,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     }
     public void addPost(View v){
-        Intent intent = new Intent(ItemListActivity.this, ItemRegisterActivtiy.class);
+        Intent intent = new Intent(ItemListActivity.this, ItemRegisterActivity.class);
         startActivity(intent);
 //        Toast.makeText(getApplicationContext(), "addPost 클릭", Toast.LENGTH_SHORT).show();
     }
@@ -114,39 +124,3 @@ public class ItemListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-//package com.example.joint;
-//
-//import android.content.Intent;
-//import android.os.Bundle;
-//import android.view.View;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//public class ItemListActivity extends AppCompatActivity {
-//    // 물품 리스트
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_item_list);
-//    }
-//
-//    public void onClickHome(View v){
-//        Intent intent = new Intent(ItemListActivity.this, ItemListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotice(View v){
-//        Intent intent = new Intent(ItemListActivity.this, NoticeListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickMyProfile(View v){
-//        Intent intent = new Intent(ItemListActivity.this, MyprofileActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotification(View v){
-//        Intent intent = new Intent(ItemListActivity.this, NotificationActivity.class);
-//        startActivity(intent);
-//    }
-//}

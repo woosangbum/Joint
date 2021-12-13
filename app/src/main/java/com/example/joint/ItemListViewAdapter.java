@@ -60,13 +60,9 @@ public class ItemListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position) ;
     }
 
-    public void addItem(String id, String name, String deadlineDate) {
-        Item item = new Item(id, name, deadlineDate);
-
-//        item.setId(id);
-//        item.setName(name);
-//        item.setDeadlineDate(deadlineDate);
-//        item.setIcon(icon);
+    public void addItem(String id, String name, String icon, String deadlineDate,
+                        String content, String targetNum, String currNum, String price, String discountPrice, String creationDate) {
+        Item item = new Item(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
 
         listViewItemList.add(item);
     }

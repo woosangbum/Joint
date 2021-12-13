@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -109,7 +110,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
     }
 
-    public void oneDadlineDateClick(View v){
+    public void onDeadlineDateClick(View v){
         DatePickerFragment dpf = new DatePickerFragment();
         dpf.setTextView(textDeadlineDate);
         dpf.show(getSupportFragmentManager(), "datePicker");
@@ -117,9 +118,9 @@ public class ItemRegisterActivity extends AppCompatActivity {
 
     public void registerItemPost(View v){
         // id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate
-        String id = "id" + String.valueOf(itemListCnt);
+        String id = "item" + String.valueOf(itemListCnt);
         String name = editTextName.getText().toString().trim();
-        String icon = "";
+        String icon = "item" + String.valueOf(itemListCnt) + ".png";
         // deadlineDate
         String content = editTextContent.getText().toString().trim();
         String targetNum = editTextTargetNum.getText().toString().trim();
@@ -129,20 +130,16 @@ public class ItemRegisterActivity extends AppCompatActivity {
         String creationDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
                 LocalDate.now().getDayOfMonth() + "일 "+ LocalTime.now().getHour() + "시 " + LocalTime.now().getMinute() + "분";
 
-
         if(!editTextCheck(name, content, targetNum, price, discountPrice)) return; // 입력 텍스트 체크
-
-//      progressDialog.setMessage("등록중입니다. 기다려 주세요...");
-//      progressDialog.show();
 
         Item item = new Item(id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
         reference.child(id).setValue(item);
 
         riversRef = storageRef.child(id + ".png");
+        Log.d("uri", file.toString());
         UploadTask uploadTask = riversRef.putFile(file);
-
-        Toast.makeText(ItemRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
         itemListCnt++;
+        Toast.makeText(ItemRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
         finish();
         startActivity(new Intent(getApplicationContext(), ItemListActivity.class));
     }

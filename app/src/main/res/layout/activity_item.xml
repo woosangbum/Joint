@@ -15,7 +15,7 @@
         app:layout_constraintHorizontal_bias="0.188"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/item_image"
         app:layout_constraintVertical_bias="0.076" />
 
     <View
@@ -81,7 +81,7 @@
         app:layout_constraintVertical_bias="0.931" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/item_image"
         android:layout_width="149dp"
         android:layout_height="143dp"
         android:layout_marginTop="40dp"
@@ -158,7 +158,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/item_name"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/item_image"
         app:layout_constraintVertical_bias="0.712" />
 
     <TextView
@@ -170,7 +170,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toStartOf="@+id/item_targetNum"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/item_image"
         app:layout_constraintVertical_bias="0.698" />
 
     <TextView
@@ -182,7 +182,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/item_image"
         app:layout_constraintVertical_bias="0.712" />
 
     <TextView
@@ -194,7 +194,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/item_image"
         app:layout_constraintVertical_bias="0.712" />
 
     <TextView

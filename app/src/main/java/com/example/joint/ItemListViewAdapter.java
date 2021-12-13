@@ -1,21 +1,32 @@
 package com.example.joint;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class ItemListViewAdapter extends BaseAdapter {
     private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
+    Context context;
 
-
-    public void ListViewAdapter() {
-
+    public void ListViewAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -42,10 +53,25 @@ public class ItemListViewAdapter extends BaseAdapter {
 
 
         Item listViewItem = listViewItemList.get(position);
-
         nameTextView.setText(listViewItem.getName());
         deadlineDateTextView.setText(listViewItem.getDeadlineDate());
-//        imageView.setImageResource(listViewItem.getIcon());
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        storageRef.child(listViewItem.getIcon()).getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(context.getApplicationContext())
+                                .load(uri)
+                                .into(imageView);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(context.getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         return convertView;
     }

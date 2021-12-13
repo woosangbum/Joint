@@ -74,6 +74,7 @@
         android:id="@+id/buttonOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onClickOrder"
         android:text="구매내역"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonLogout"

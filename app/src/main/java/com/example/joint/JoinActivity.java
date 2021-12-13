@@ -54,7 +54,7 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
         if(firebaseAuth.getCurrentUser() != null){
             //이미 로그인 되었다면 이 액티비티를 종료함
             finish();
-            //그리고 profile 액티비티를 연다.
+            //그리고 ItemList 액티비티를 연다.
             startActivity(new Intent(getApplicationContext(), ItemListActivity.class)); //추가해 줄 ProfileActivity
         }
 

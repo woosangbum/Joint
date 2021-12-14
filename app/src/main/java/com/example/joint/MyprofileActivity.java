@@ -1,7 +1,9 @@
 package com.example.joint;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +39,8 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
     private FirebaseUser userDB;
     private String userEmail;
     private String studentId;
+
+    public static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +145,7 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
             firebaseAuth.signOut();
             finish();
             startActivity(new Intent(this, MainActivity.class));
+//            PreferenceManager.clear(getApplicationContext()); // 로그인 정보 유지 데이터 삭제
         }
         //회원탈퇴를 클릭하면 회원정보를 삭제한다. 삭제전에 컨펌창을 하나 띄움.
         if(view == textviewDelete) {

@@ -60,9 +60,14 @@ public class UserPurchaseHistoryActivity extends AppCompatActivity {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String checkStudentid = PreferenceManager.getString(getApplicationContext(), "studentId");
+
                 // id, studentId, productId, productCount, productPrice, isReceipt, purchaseDate
                 String id = dataSnapshot.getKey();
                 String studentId = dataSnapshot.child("studentId").getValue().toString();
+
+                if(!studentId.equals(checkStudentid)) return;
+
                 String productId = dataSnapshot.child("itemId").getValue().toString();
                 String productCount = dataSnapshot.child("productCount").getValue().toString();
                 String productPrice = dataSnapshot.child("productPrice").getValue().toString();

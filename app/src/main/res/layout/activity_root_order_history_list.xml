@@ -72,7 +72,7 @@
 
 
     <ListView
-        android:id="@+id/userPurchaseListView"
+        android:id="@+id/rootOrderListView"
         android:layout_width="358dp"
         android:layout_height="426dp"
         android:layout_alignParentTop="true"

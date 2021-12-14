@@ -36,6 +36,7 @@ public class NoticeListActivity extends AppCompatActivity {
         //유저의 이메일 가져오기
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = userDB.getEmail().trim();
+
 //        유저의 이메일이 root@koreatech.ac.kr(관리자)가 아니면 게시글 작성 버튼 숨기기
         if(!userEmail.equals(getString(R.string.root))) {
             noticeRegisterButton = findViewById(R.id.noticeRegisterButton);
@@ -77,7 +78,7 @@ public class NoticeListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String id = dataSnapshot.getKey();
-                Log.d("idddd", id);
+//                Log.d("idddd", id);
                 String title = dataSnapshot.child("title").getValue().toString();
                 String date = dataSnapshot.child("date").getValue().toString();
                 String content = dataSnapshot.child("content").getValue().toString();

@@ -78,7 +78,7 @@ public class ItemListActivity extends AppCompatActivity {
         databaseReference.child("item_list").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String id = dataSnapshot.getValue().toString();
+                String id = dataSnapshot.getKey();
                 String name = dataSnapshot.child("name").getValue().toString();
                 String icon = dataSnapshot.child("icon").getValue().toString();
                 String deadlineDate = dataSnapshot.child("deadlineDate").getValue().toString();

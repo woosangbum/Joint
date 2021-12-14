@@ -16,14 +16,13 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class ItemListViewAdapter extends BaseAdapter {
-    private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
+public class RootOrderAdapter extends BaseAdapter {
+    private ArrayList<Item> listViewOrderList = new ArrayList<Item>() ;
 //    Context context;
 
 //    public void ListViewAdapter(Context context) {
@@ -32,10 +31,10 @@ public class ItemListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return listViewItemList.size() ;
+        return listViewOrderList.size() ;
     }
     public String getCountString() {
-        return String.valueOf(listViewItemList.size());
+        return String.valueOf(listViewOrderList.size());
     }
 
     @Override
@@ -45,24 +44,20 @@ public class ItemListViewAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.listview_item, parent, false);
+            convertView = inflater.inflate(R.layout.listview_order, parent, false);
         }
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
-        TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.orderImageView);
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.orderName) ;
+        TextView targetNumTextView = (TextView) convertView.findViewById(R.id.orderTargetNum) ;
 
 
-        Item listViewItem = listViewItemList.get(position);
+        Item listViewItem = listViewOrderList.get(position);
         nameTextView.setText(listViewItem.getName());
-        deadlineDateTextView.setText(listViewItem.getDeadlineDate());
+        targetNumTextView.setText(listViewItem.getTargetNum());
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-
-        Log.d("aaaa", listViewItem.getId());
-        Log.d("aaaa", listViewItem.getIcon()); // toothpaste.png
-        Log.d("aaaa", storageRef.child(listViewItem.getIcon()).toString()); // gs://joint-287b0.appspot.com/toothpaste.png
 
         storageRef.child(listViewItem.getIcon()).getDownloadUrl()
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -90,13 +85,13 @@ public class ItemListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return listViewItemList.get(position) ;
+        return listViewOrderList.get(position) ;
     }
 
     public void addItem(String id, String name, String icon, String deadlineDate,
                         String content, String targetNum, String currNum, String price, String discountPrice, String creationDate) {
         Item item = new Item(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
 
-        listViewItemList.add(item);
+        listViewOrderList.add(item);
     }
 }

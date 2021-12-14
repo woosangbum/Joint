@@ -70,6 +70,10 @@
             android:name=".RootOrderHistoryActivity"
             android:label="RootOrderHistoryActivity">
         </activity>
+        <activity
+            android:name=".RootOrderStudentListActivity"
+            android:label="RootOrderStudentListActivity">
+        </activity>
     </application>
 
 </manifest>

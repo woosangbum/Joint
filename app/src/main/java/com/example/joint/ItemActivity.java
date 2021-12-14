@@ -41,7 +41,8 @@ public class ItemActivity extends AppCompatActivity {
     private String productPrice;
 
     private static int cnt = 1;
-    private int userPurchaseNum;
+    private int userPurchaseNum = 1;
+
     // 물품 게시글 상세글
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class ItemActivity extends AppCompatActivity {
 
     public void onClickPurchasePost(View v){
         String id = "product" + cnt;
-        String studentId = "111111";
+        String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");;
         String productCount = ((TextView)findViewById(R.id.item_count)).getText().toString();
         String isReceipt = "false";
 
@@ -132,12 +133,13 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void onClickPlusMinus(View v){
-//        if(R.id.imageViewMinus == v.getId()){
-//            int userPurchaseNum = Integer.parseInt(itemCount.getText().toString()) - 1;
-//            if(userPurchaseNum > 1 userPurchaseNum;
-//        }
-//        else if(R.id.imageViewMinus == v.getId()){
-//            itemCount.setText(String.valueOf(Integer.parseInt(itemCount.getText().toString()) + 1));
-//        }
+        if(R.id.imageViewMinus == v.getId()){
+            if(userPurchaseNum > 1) userPurchaseNum -= 1;
+            else Toast.makeText(getApplicationContext(), "더 이상 인원 수를 줄일 수 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+        if(R.id.imageViewPlus == v.getId()){
+            userPurchaseNum += 1;
+        }
+        itemCount.setText(Integer.toString(userPurchaseNum));
     }
 }

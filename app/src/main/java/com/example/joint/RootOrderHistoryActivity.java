@@ -40,7 +40,7 @@ public class RootOrderHistoryActivity extends AppCompatActivity {
                 // intent 객체에 데이터를 실어서 보내기
                 Item item = (Item) adapter.getItem(position);
                 intent.putExtra("id", item.getId());
-//                intent.putExtra("name", item.getName());
+                intent.putExtra("name", item.getName());
 //                intent.putExtra("icon", item.getIcon());
 //                intent.putExtra("deadlineDate", item.getDeadlineDate());
 //                intent.putExtra("content", item.getContent());

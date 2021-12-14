@@ -36,6 +36,7 @@
         <entry key="app/src/main/res/layout/listview_notice_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/listview_order.xml" value="0.1" />
         <entry key="app/src/main/res/layout/listview_purchase.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/listview_student.xml" value="0.253125" />
       </map>
     </option>
   </component>

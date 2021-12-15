@@ -11,17 +11,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemActivity extends AppCompatActivity {
     TextView tvName;
@@ -36,6 +42,7 @@ public class ItemActivity extends AppCompatActivity {
     TextView textViewComputePrice;
     TextView itemCount;
 
+    FirebaseStorage storage;
 
     private String itemId;
     private String productPrice;
@@ -43,12 +50,14 @@ public class ItemActivity extends AppCompatActivity {
     private static int cnt = 1;
     private int userPurchaseNum = 1;
 
+
     // 물품 게시글 상세글
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
+        storage = FirebaseStorage.getInstance();
         tvName = (TextView)findViewById(R.id.item_name);
         img = (ImageView)findViewById(R.id.item_image);
         tvDeadlineDate = (TextView)findViewById(R.id.item_deadlineDate);
@@ -132,14 +141,25 @@ public class ItemActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickPlusMinus(View v){
-        if(R.id.imageViewMinus == v.getId()){
-            if(userPurchaseNum > 1) userPurchaseNum -= 1;
-            else Toast.makeText(getApplicationContext(), "더 이상 인원 수를 줄일 수 없습니다.", Toast.LENGTH_SHORT).show();
+    public void onClickPlusMinus(@NonNull View v) {
+        if (R.id.imageViewMinus == v.getId()) {
+            if (userPurchaseNum > 1) userPurchaseNum -= 1;
+            else
+                Toast.makeText(getApplicationContext(), "더 이상 인원 수를 줄일 수 없습니다.", Toast.LENGTH_SHORT).show();
         }
-        if(R.id.imageViewPlus == v.getId()){
+        if (R.id.imageViewPlus == v.getId()) {
             userPurchaseNum += 1;
         }
         itemCount.setText(Integer.toString(userPurchaseNum));
+
+        int prevNum = Integer.valueOf(tvCurrNum.getText().toString());
+        int currNum = prevNum + userPurchaseNum;
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("item_list");
+        DatabaseReference hopperRef = ref.child(itemId);
+        Map<String, Object> hopperUpdates = new HashMap<>();
+        hopperUpdates.put("currNum",  String.valueOf(currNum));
+        hopperRef.updateChildren(hopperUpdates);
     }
 }

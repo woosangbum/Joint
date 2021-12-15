@@ -27,13 +27,17 @@ public class ItemListActivity extends AppCompatActivity {
     ItemListViewAdapter adapter;
     Button itemRegisterButton;
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
         context = this;
         //유저의 이메일 가져오기
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();

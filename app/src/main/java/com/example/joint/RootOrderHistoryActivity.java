@@ -21,13 +21,16 @@ public class RootOrderHistoryActivity extends AppCompatActivity {
     private ListView order_view;
     RootOrderAdapter adapter;
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root_order_history_list);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
 
         order_view = (ListView) findViewById(R.id.rootOrderListView);
         showOrderList();

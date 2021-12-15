@@ -22,7 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 public class StudentListAdapter extends BaseAdapter {
-    private ArrayList<User> listViewOrderList = new ArrayList<User>() ;
+    private ArrayList<HistoryStudent> listViewOrderList = new ArrayList<HistoryStudent>() ;
 //    Context context;
 
 //    public void ListViewAdapter(Context context) {
@@ -49,11 +49,13 @@ public class StudentListAdapter extends BaseAdapter {
 
         TextView idTextView = (TextView) convertView.findViewById(R.id.view_student_id) ;
         TextView nameTextView = (TextView) convertView.findViewById(R.id.view_student_name) ;
+        TextView cntTextView = (TextView) convertView.findViewById(R.id.view_product_count) ;
 
 
-        User listViewItem = listViewOrderList.get(position);
+        HistoryStudent listViewItem = listViewOrderList.get(position);
         idTextView.setText(listViewItem.getStudentId());
         nameTextView.setText(listViewItem.getName());
+        cntTextView.setText(listViewItem.getProductCount());
 
         return convertView;
     }
@@ -67,9 +69,9 @@ public class StudentListAdapter extends BaseAdapter {
         return listViewOrderList.get(position) ;
     }
 
-    public void addItem(String name, String phoneNumber, String email, String studentId) {
-        User user = new User(name, phoneNumber, email, studentId);
+    public void addItem(String name, String studentId, String productCount) {
+        HistoryStudent historyStudent = new HistoryStudent( name, studentId, productCount);
 
-        listViewOrderList.add(user);
+        listViewOrderList.add(historyStudent);
     }
 }

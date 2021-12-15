@@ -24,8 +24,8 @@ public class UserPurchaseHistoryActivity extends AppCompatActivity {
     private ListView userPurchaseListView;
     UserPurchaseListViewAdapter adapter;
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     private FirebaseAuth firebaseAuth;
     private String studentId;
@@ -34,6 +34,9 @@ public class UserPurchaseHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_purchase_history_list);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
 
 //        Intent intent = getIntent();
 //        studentId = intent.getStringExtra("student_id");

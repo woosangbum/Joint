@@ -101,7 +101,7 @@ public class ItemActivity extends AppCompatActivity {
         Log.d("product", productPrice);
         Log.d("product", itemId);
 
-        if(!studentId.equals("root")) {
+        if(studentId.equals("root")) {
             Button buyButton = (Button)findViewById(R.id.buyButton);
             ImageView imageViewMinus = findViewById(R.id.imageViewMinus);
             ImageView imageViewPlus = findViewById(R.id.imageViewPlus);

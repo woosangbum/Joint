@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 
 public class ItemListViewAdapter extends BaseAdapter {
     private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
-//    Context context;
+    Context context;
 
 //    public void ListViewAdapter(Context context) {
 //        this.context = context;
@@ -54,8 +53,8 @@ public class ItemListViewAdapter extends BaseAdapter {
         ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
         TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
         TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
-        Button rePostButton = (Button) convertView.findViewById(R.id.rePostButton);
-        Button deleteedButton = (Button) convertView.findViewById(R.id.deleteedButton);
+        Button editPostButton = (Button) convertView.findViewById(R.id.editPostButton);
+        Button deletedButton = (Button) convertView.findViewById(R.id.deletedButton);
 
 
         Item listViewItem = listViewItemList.get(position);
@@ -65,9 +64,15 @@ public class ItemListViewAdapter extends BaseAdapter {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        Log.d("aaaa", listViewItem.getId());
-        Log.d("aaaa", listViewItem.getIcon()); // toothpaste.png
-        Log.d("aaaa", storageRef.child(listViewItem.getIcon()).toString()); // gs://joint-287b0.appspot.com/toothpaste.png
+        String checkStudentid = PreferenceManager.getString(context, "studentId");
+        Log.d("ddd", checkStudentid);
+        if(!checkStudentid.equals("root")) {
+            editPostButton.setVisibility(View.INVISIBLE);
+            deletedButton.setVisibility(View.INVISIBLE);
+
+            editPostButton.setEnabled(false);
+            deletedButton.setEnabled(false);
+        }
 
         storageRef.child(listViewItem.getIcon()).getDownloadUrl()
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -92,12 +97,12 @@ public class ItemListViewAdapter extends BaseAdapter {
             deadlineDateTextView.setPaintFlags(deadlineDateTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        rePostButton.setOnClickListener(new Button.OnClickListener() { // 수정
+        editPostButton.setOnClickListener(new Button.OnClickListener() { // 수정
             public void onClick(View v) {
                 Toast.makeText(context.getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
             }
         });
-        deleteedButton.setOnClickListener(new Button.OnClickListener() { // 삭제
+        deletedButton.setOnClickListener(new Button.OnClickListener() { // 삭제
             public void onClick(View v) {
                 Toast.makeText(context.getApplicationContext(), "삭제", Toast.LENGTH_SHORT).show();
             }

@@ -3,16 +3,14 @@ package com.example.joint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.Collator;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class ItemListActivity extends AppCompatActivity {
     // 물품 리스트
@@ -37,13 +31,15 @@ public class ItemListActivity extends AppCompatActivity {
     private ListView item_view;
     ItemListViewAdapter adapter;
 
-    Button itemRegisterButton;
+
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
     // Front End (bottom_menu)
     private BottomNavigationView bottomNavigationView;
+
+    Button itemRegisterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +57,12 @@ public class ItemListActivity extends AppCompatActivity {
         //유저의 이메일 가져오기
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = userDB.getEmail().trim();
-        //유저의 이메일이 root@koreatech.ac.kr(관리자)가 아니면 게시글 작성 버튼 숨기기
-        if(!userEmail.equals(getString(R.string.root))) {
-            itemRegisterButton = findViewById(R.id.itemRegisterButton);
+
+        itemRegisterButton = findViewById(R.id.itemRegisterButton);
+
+        String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
+
+        if(!studentId.equals("root")) {
             itemRegisterButton.setVisibility(View.INVISIBLE);
             itemRegisterButton.setEnabled(false);
         }

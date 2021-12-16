@@ -104,7 +104,7 @@
         android:layout_marginTop="24dp"
         android:onClick="addPost"
         android:text="작성하기"
-        app:layout_constraintBottom_toTopOf="@+id/notificationButton"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.927"
         app:layout_constraintStart_toStartOf="parent"

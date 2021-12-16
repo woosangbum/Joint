@@ -118,6 +118,9 @@ public class JoinActivity extends AppCompatActivity implements View.OnClickListe
                         DatabaseReference reference = database.getReference("user");
                         reference.child(studentId).setValue(user);
 
+                        PreferenceManager.setString(getApplicationContext(), "studentId", studentId); // 값 저장
+                        PreferenceManager.setString(getApplicationContext(), "userEmail", email); // 값 저장
+
                         Toast.makeText(JoinActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
                         finish();
                         startActivity(new Intent(getApplicationContext(), ItemListActivity.class));

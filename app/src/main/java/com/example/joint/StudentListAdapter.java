@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -31,7 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StudentListAdapter extends BaseAdapter {
+public class StudentListAdapter extends BaseAdapter  {
+
     private ArrayList<HistoryStudent> listViewOrderList = new ArrayList<HistoryStudent>() ;
 
 //    Context context;
@@ -65,6 +67,7 @@ public class StudentListAdapter extends BaseAdapter {
         TextView idTextView = (TextView) convertView.findViewById(R.id.view_student_id) ;
         TextView nameTextView = (TextView) convertView.findViewById(R.id.view_student_name) ;
         TextView cntTextView = (TextView) convertView.findViewById(R.id.view_product_count) ;
+        Button isCheckedButton = (Button) convertView.findViewById(R.id.isCheckedButton);
 //        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox1);
 
         HistoryStudent listViewItem = listViewOrderList.get(position);
@@ -77,26 +80,25 @@ public class StudentListAdapter extends BaseAdapter {
         DatabaseReference hopperRef = ref.child(listViewItem.getProductId());
         Map<String, Object> hopperUpdates = new HashMap<>();
 
-//        if(listViewItem.getIsChecked().equals("true")) checkBox.setChecked(true);
-//        else checkBox.setChecked(false);
-//
-//        checkBox.setOnCheckedChangeListener(null);
-//
-//        if(listViewItem.getIsChecked().equals("true")) checkBox.setChecked(true);
-//        else checkBox.setChecked(false);
-//        checkBox.setChecked(true);
-//        checkBox.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//                if(checkBox.isChecked()){
-//                    hopperUpdates.put("isReceipt",  String.valueOf("true"));
-//                    hopperRef.updateChildren(hopperUpdates);
-//                }
-//                else {
-//                    hopperUpdates.put("isReceipt",  String.valueOf("false"));
-//                    hopperRef.updateChildren(hopperUpdates);
-//                }
-//            }
-//        });
+        if(listViewItem.getIsChecked().equals("true")) isCheckedButton.setText("수령");
+        else isCheckedButton.setText("미수령");
+
+        isCheckedButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                if(listViewItem.getIsChecked().equals("true")){
+                    isCheckedButton.setText("미수령");
+                    hopperUpdates.put("isReceipt",  String.valueOf("false"));
+                    hopperRef.updateChildren(hopperUpdates);
+                }
+                else {
+                    isCheckedButton.setText("수령");
+                    hopperUpdates.put("isReceipt",  String.valueOf("true"));
+                    hopperRef.updateChildren(hopperUpdates);
+                }
+            }
+        });
+
+
 
         return convertView;
     }
@@ -106,7 +108,7 @@ public class StudentListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public HistoryStudent getItem(int position) {
         return listViewOrderList.get(position) ;
     }
 

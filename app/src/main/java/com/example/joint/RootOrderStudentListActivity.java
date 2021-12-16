@@ -60,8 +60,8 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
 
         student_list_view = (ListView) findViewById(R.id.studentListView);
         showStudentList();
-
     }
+
 
     public void showStudentList() {
         adapter = new StudentListAdapter();

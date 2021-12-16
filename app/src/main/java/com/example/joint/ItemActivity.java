@@ -128,7 +128,7 @@ public class ItemActivity extends AppCompatActivity {
 
     public void onClickPurchasePost(View v){
         String id = "product" + cnt;
-        String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");;
+        String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
         String productCount = ((TextView)findViewById(R.id.item_count)).getText().toString();
         String isReceipt = "false";
 

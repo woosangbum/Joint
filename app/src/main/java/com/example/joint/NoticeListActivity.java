@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class NoticeListActivity extends AppCompatActivity {
+
     // 공시사항 리스트
     private ListView notice_view;
     NoticeListViewAdapter adapter;
@@ -41,11 +42,14 @@ public class NoticeListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notice_list);
 
         //유저의 이메일 가져오기
-        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = userDB.getEmail().trim();
+//        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
+//        String userEmail = userDB.getEmail().trim();
 
-//        유저의 이메일이 root@koreatech.ac.kr(관리자)가 아니면 게시글 작성 버튼 숨기기
-        if(!userEmail.equals(getString(R.string.root))) {
+
+        //유저의 학번이 "root"(관리자)가 아니면 게시글 작성 버튼 숨기기
+        String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
+
+        if(!studentId.equals("root")) {
             noticeRegisterButton = findViewById(R.id.noticeRegisterButton);
             noticeRegisterButton.setVisibility(View.INVISIBLE);
             noticeRegisterButton.setEnabled(false);

@@ -41,8 +41,6 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
     private TextView textviewDelete;
 
     private FirebaseUser userDB;
-    private String userEmail;
-    private String studentId;
 
     public static Context mContext;
 
@@ -66,11 +64,9 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         TextView textViewProfilePhoneNumber = findViewById(R.id.textViewProfilePhoneNumber);
         TextView textViewProfileEmail = findViewById(R.id.textViewProfileEmail);
 
-        userDB = FirebaseAuth.getInstance().getCurrentUser();
-        userEmail = userDB.getEmail().trim();
-
+        String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
         //관리자이면 주문내역 버튼과 이름만 보이도록(이메일, 핸드폰 번호 제외) 설정 변경
-        if(userEmail.equals(getString(R.string.root))){
+        if(studentId.equals("root")) {
             Button buttonOrder = findViewById(R.id.buttonOrder);
             TextView textView7 = findViewById(R.id.textView7);
             TextView textView8 = findViewById(R.id.textView8);
@@ -93,11 +89,10 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        if (userEmail.equals(snapshot.child("email").getValue().toString())) {
+                        if (studentId.equals(snapshot.child("studentId").getValue().toString())) {
                             textViewProfilePhoneNumber.setText(snapshot.child("phoneNumber").getValue().toString());
                             textViewProfileEmail.setText(snapshot.child("email").getValue().toString());
                             textViewProfileName.setText(snapshot.child("name").getValue().toString());
-                            studentId = snapshot.child("studentId").getValue().toString();
                         }
                     }
                 }
@@ -135,7 +130,6 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
                         startActivity(intent);
                         break;
                 }
-
                 return true;
             }
         });
@@ -143,14 +137,15 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
 
     // 관리자 - 주문 내역 액티비티(RootOrderHistoryActivity), 사용자 - 구매 내역 액티비티(UserPurchaseHistoryActivity)
     public void onClickOrder(View v){
-        // 주문내역(관리자)
-        if(userEmail.equals(getString(R.string.root))) {
+//         주문내역(관리자)
+        String StudentId = PreferenceManager.getString(getApplicationContext(), "studentId");
+        if(StudentId.equals("root")) {
             Intent intent = new Intent(MyprofileActivity.this, RootOrderHistoryActivity.class);
             startActivity(intent);
         // 구매내역(사용자)
         }else{
             Intent intent = new Intent(MyprofileActivity.this, UserPurchaseHistoryActivity.class);
-            intent.putExtra("student_id", studentId);
+            intent.putExtra("student_id", StudentId);
             startActivity(intent);
         }
     }

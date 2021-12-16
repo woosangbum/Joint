@@ -27,6 +27,7 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="ttt"
                 android:textSize="20sp" />
 
             <TextView
@@ -34,8 +35,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="2021년 12월 17일"
                 android:textSize="12sp" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/rePostButton"
+                    android:layout_width="67dp"
+                    android:layout_height="40dp"
 
+                    android:text="수정"
+                    android:textSize="11sp" />
+                <Button
+                    android:id="@+id/deleteedButton"
+                    android:layout_width="67dp"
+                    android:layout_height="40dp"
+                    android:text="삭제"
+                    android:textSize="11sp" />
+        </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

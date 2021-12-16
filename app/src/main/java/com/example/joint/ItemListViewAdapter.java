@@ -1,6 +1,8 @@
 package com.example.joint;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,6 +82,11 @@ public class ItemListViewAdapter extends BaseAdapter {
                         Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
                     }
                 });
+        if(listViewItem.getCurrNum().equals(listViewItem.getTargetNum())){
+            convertView.setBackgroundColor(Color.GRAY);
+            nameTextView.setPaintFlags(nameTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            deadlineDateTextView.setPaintFlags(deadlineDateTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
         return convertView;
     }

@@ -3,16 +3,18 @@ package com.example.joint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -31,6 +33,9 @@ public class ItemListActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+
+    // Front End (bottom_menu)
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,35 @@ public class ItemListActivity extends AppCompatActivity {
                 intent.putExtra("creationDate", item.getCreationDate());
                 intent.putExtra("itemId", item.getId());
                 startActivity(intent);
+            }
+        });
+
+        // Front End
+        bottomNavigationView = findViewById(R.id.bottom_menu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch(item.getItemId()){
+                    case R.id.action_home:
+                        intent = new Intent(ItemListActivity.this, ItemListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notice:
+                        intent = new Intent(ItemListActivity.this, NoticeListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_profile:
+                        intent = new Intent(ItemListActivity.this, MyprofileActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notification:
+                        intent = new Intent(ItemListActivity.this, NotificationActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                return true;
             }
         });
     }
@@ -130,23 +164,23 @@ public class ItemListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickHome(View v){
-        Intent intent = new Intent(ItemListActivity.this, ItemListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotice(View v){
-        Intent intent = new Intent(ItemListActivity.this, NoticeListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickMyProfile(View v){
-        Intent intent = new Intent(ItemListActivity.this, MyprofileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotification(View v){
-        Intent intent = new Intent(ItemListActivity.this, NotificationActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickHome(View v){
+//        Intent intent = new Intent(ItemListActivity.this, ItemListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotice(View v){
+//        Intent intent = new Intent(ItemListActivity.this, NoticeListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickMyProfile(View v){
+//        Intent intent = new Intent(ItemListActivity.this, MyprofileActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotification(View v){
+//        Intent intent = new Intent(ItemListActivity.this, NotificationActivity.class);
+//        startActivity(intent);
+//    }
 }

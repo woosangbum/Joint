@@ -25,23 +25,23 @@ public class NoticeActivity extends AppCompatActivity {
 
     }
 
-    public void onClickHome(View v){
-        Intent intent = new Intent(NoticeActivity.this, ItemListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotice(View v){
-        Intent intent = new Intent(NoticeActivity.this, NoticeListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickMyProfile(View v){
-        Intent intent = new Intent(NoticeActivity.this, MyprofileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotification(View v){
-        Intent intent = new Intent(NoticeActivity.this, NotificationActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickHome(View v){
+//        Intent intent = new Intent(NoticeActivity.this, ItemListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotice(View v){
+//        Intent intent = new Intent(NoticeActivity.this, NoticeListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickMyProfile(View v){
+//        Intent intent = new Intent(NoticeActivity.this, MyprofileActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotification(View v){
+//        Intent intent = new Intent(NoticeActivity.this, NotificationActivity.class);
+//        startActivity(intent);
+//    }
 }

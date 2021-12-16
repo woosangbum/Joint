@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -31,6 +33,8 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+    // Front End (bottom_menu)
+    private BottomNavigationView bottomNavigationView;
 
     private FirebaseAuth firebaseAuth;
     private Button buttonLogout;
@@ -106,6 +110,35 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         }
 
         buttonLogout.setOnClickListener(this);
+
+        // Front End
+        bottomNavigationView = findViewById(R.id.bottom_menu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch(item.getItemId()){
+                    case R.id.action_home:
+                        intent = new Intent(MyprofileActivity.this, ItemListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notice:
+                        intent = new Intent(MyprofileActivity.this, NoticeListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_profile:
+                        intent = new Intent(MyprofileActivity.this, MyprofileActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notification:
+                        intent = new Intent(MyprofileActivity.this, NotificationActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                return true;
+            }
+        });
     }
 
     // 관리자 - 주문 내역 액티비티(RootOrderHistoryActivity), 사용자 - 구매 내역 액티비티(UserPurchaseHistoryActivity)
@@ -122,25 +155,25 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public void onClickHome(View v){
-        Intent intent = new Intent(MyprofileActivity.this, ItemListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotice(View v){
-        Intent intent = new Intent(MyprofileActivity.this, NoticeListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickMyProfile(View v){
-        Intent intent = new Intent(MyprofileActivity.this, MyprofileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotification(View v){
-        Intent intent = new Intent(MyprofileActivity.this, NotificationActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickHome(View v){
+//        Intent intent = new Intent(MyprofileActivity.this, ItemListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotice(View v){
+//        Intent intent = new Intent(MyprofileActivity.this, NoticeListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickMyProfile(View v){
+//        Intent intent = new Intent(MyprofileActivity.this, MyprofileActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotification(View v){
+//        Intent intent = new Intent(MyprofileActivity.this, NotificationActivity.class);
+//        startActivity(intent);
+//    }
 
     @Override
     public void onClick(View view) {

@@ -103,24 +103,24 @@ public class RootOrderHistoryActivity extends AppCompatActivity {
         });
     }
 
-    public void onClickHome(View v){
-        Intent intent = new Intent(RootOrderHistoryActivity.this, ItemListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotice(View v){
-        Intent intent = new Intent(RootOrderHistoryActivity.this, NoticeListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickMyProfile(View v){
-        Intent intent = new Intent(RootOrderHistoryActivity.this, MyprofileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotification(View v){
-        Intent intent = new Intent(RootOrderHistoryActivity.this, NotificationActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickHome(View v){
+//        Intent intent = new Intent(RootOrderHistoryActivity.this, ItemListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotice(View v){
+//        Intent intent = new Intent(RootOrderHistoryActivity.this, NoticeListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickMyProfile(View v){
+//        Intent intent = new Intent(RootOrderHistoryActivity.this, MyprofileActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotification(View v){
+//        Intent intent = new Intent(RootOrderHistoryActivity.this, NotificationActivity.class);
+//        startActivity(intent);
+//    }
 
 }

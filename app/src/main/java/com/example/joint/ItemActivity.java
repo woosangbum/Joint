@@ -144,25 +144,25 @@ public class ItemActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), ItemListActivity.class));
     }
 
-    public void onClickHome(View v){
-        Intent intent = new Intent(ItemActivity.this, ItemListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotice(View v){
-        Intent intent = new Intent(ItemActivity.this, NoticeListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickMyProfile(View v){
-        Intent intent = new Intent(ItemActivity.this, MyprofileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotification(View v){
-        Intent intent = new Intent(ItemActivity.this, NotificationActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickHome(View v){
+//        Intent intent = new Intent(ItemActivity.this, ItemListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotice(View v){
+//        Intent intent = new Intent(ItemActivity.this, NoticeListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickMyProfile(View v){
+//        Intent intent = new Intent(ItemActivity.this, MyprofileActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotification(View v){
+//        Intent intent = new Intent(ItemActivity.this, NotificationActivity.class);
+//        startActivity(intent);
+//    }
 
     public void onClickPlusMinus(@NonNull View v) {
         if(updateCurrNum  == Integer.parseInt(tvTargetNum.getText().toString())){

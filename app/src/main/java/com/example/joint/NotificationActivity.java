@@ -3,12 +3,15 @@ package com.example.joint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -27,6 +30,9 @@ public class NotificationActivity extends AppCompatActivity {
 
     String checkStudentid;
 
+    // Front End (bottom_menu)
+    private BottomNavigationView bottomNavigationView;
+
     // 알림
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,35 @@ public class NotificationActivity extends AppCompatActivity {
 
         notification_view = (ListView) findViewById(R.id.notificationListView);
         showNotificationList();
+
+        // Front End
+        bottomNavigationView = findViewById(R.id.bottom_menu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch(item.getItemId()){
+                    case R.id.action_home:
+                        intent = new Intent(NotificationActivity.this, ItemListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notice:
+                        intent = new Intent(NotificationActivity.this, NoticeListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_profile:
+                        intent = new Intent(NotificationActivity.this, MyprofileActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notification:
+                        intent = new Intent(NotificationActivity.this, NotificationActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                return true;
+            }
+        });
     }
 
     private void showNotificationList() {
@@ -85,23 +120,23 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
-    public void onClickHome(View v){
-        Intent intent = new Intent(NotificationActivity.this, ItemListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotice(View v){
-        Intent intent = new Intent(NotificationActivity.this, NoticeListActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickMyProfile(View v){
-        Intent intent = new Intent(NotificationActivity.this, MyprofileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotification(View v){
-        Intent intent = new Intent(NotificationActivity.this, NotificationActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickHome(View v){
+//        Intent intent = new Intent(NotificationActivity.this, ItemListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotice(View v){
+//        Intent intent = new Intent(NotificationActivity.this, NoticeListActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickMyProfile(View v){
+//        Intent intent = new Intent(NotificationActivity.this, MyprofileActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onClickNotification(View v){
+//        Intent intent = new Intent(NotificationActivity.this, NotificationActivity.class);
+//        startActivity(intent);
+//    }
 }

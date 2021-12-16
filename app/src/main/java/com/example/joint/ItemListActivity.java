@@ -36,7 +36,6 @@ public class ItemListActivity extends AppCompatActivity {
 
     private ListView item_view;
     ItemListViewAdapter adapter;
-
     Button itemRegisterButton;
 
     private FirebaseDatabase firebaseDatabase;
@@ -58,14 +57,16 @@ public class ItemListActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
-        //유저의 이메일 가져오기
-        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = userDB.getEmail().trim();
-        //유저의 이메일이 root@koreatech.ac.kr(관리자)가 아니면 게시글 작성 버튼 숨기기
-        if(!userEmail.equals(getString(R.string.root))) {
+        //유저 학번 가져오기
+        String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
+
+        //유저의 학번이 "root"(관리자)가 아니면 게시글 작성, 수정, 삭제 버튼 숨기기
+        if(!studentId.equals("root")) {
             itemRegisterButton = findViewById(R.id.itemRegisterButton);
             itemRegisterButton.setVisibility(View.INVISIBLE);
             itemRegisterButton.setEnabled(false);
+
+
         }
 
         item_view = (ListView) findViewById(R.id.itemListView);

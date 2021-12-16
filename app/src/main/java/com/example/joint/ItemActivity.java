@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -52,6 +55,7 @@ public class ItemActivity extends AppCompatActivity {
     private int updateCurrNum;
     private static int noCnt = 100;
 
+    private String studentId;
 
     // 물품 게시글 상세글
     @Override
@@ -59,6 +63,7 @@ public class ItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
+        studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
         storage = FirebaseStorage.getInstance();
         tvName = (TextView)findViewById(R.id.item_name);
         img = (ImageView)findViewById(R.id.item_image);
@@ -72,6 +77,7 @@ public class ItemActivity extends AppCompatActivity {
         textViewComputePrice = (TextView)findViewById(R.id.textViewComputePrice);
         itemCount = (TextView)findViewById(R.id.item_count);
         userPurchaseNum = Integer.parseInt(itemCount.getText().toString());
+
 
         Intent intent = getIntent(); // 보내온 Intent를 얻는다
         tvName.setText(intent.getStringExtra("name"));
@@ -94,6 +100,21 @@ public class ItemActivity extends AppCompatActivity {
         Log.d("product", tvTargetNum.getText().toString());
         Log.d("product", productPrice);
         Log.d("product", itemId);
+
+        if(!studentId.equals("root")) {
+            Button buyButton = (Button)findViewById(R.id.buyButton);
+            ImageView imageViewMinus = findViewById(R.id.imageViewMinus);
+            ImageView imageViewPlus = findViewById(R.id.imageViewPlus);
+
+            itemCount.setVisibility(View.INVISIBLE);
+            itemCount.setEnabled(false);
+            imageViewPlus.setVisibility(View.INVISIBLE);
+            imageViewPlus.setEnabled(false);
+            imageViewMinus.setVisibility(View.INVISIBLE);
+            imageViewMinus.setEnabled(false);
+            buyButton.setVisibility(View.INVISIBLE);
+            buyButton.setEnabled(false);
+        }
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();

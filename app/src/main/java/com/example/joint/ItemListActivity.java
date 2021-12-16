@@ -22,6 +22,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.Collator;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ItemListActivity extends AppCompatActivity {
     // 물품 리스트
@@ -29,6 +36,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     private ListView item_view;
     ItemListViewAdapter adapter;
+
     Button itemRegisterButton;
 
     private FirebaseDatabase firebaseDatabase;
@@ -63,25 +71,22 @@ public class ItemListActivity extends AppCompatActivity {
         item_view = (ListView) findViewById(R.id.itemListView);
         showItemList();
 
-        item_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent( getApplicationContext(), ItemActivity.class);
+        item_view.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent( getApplicationContext(), ItemActivity.class);
 
-                // intent 객체에 데이터를 실어서 보내기
-                Item item = (Item) adapter.getItem(position);
-                intent.putExtra("name", item.getName());
-                intent.putExtra("icon", item.getIcon());
-                intent.putExtra("deadlineDate", item.getDeadlineDate());
-                intent.putExtra("content", item.getContent());
-                intent.putExtra("targetNum", item.getTargetNum());
-                intent.putExtra("currNum", item.getCurrNum());
-                intent.putExtra("price", item.getPrice());
-                intent.putExtra("discountPrice", item.getDiscountPrice());
-                intent.putExtra("creationDate", item.getCreationDate());
-                intent.putExtra("itemId", item.getId());
-                startActivity(intent);
-            }
+            // intent 객체에 데이터를 실어서 보내기
+            Item item = (Item) adapter.getItem(position);
+            intent.putExtra("name", item.getName());
+            intent.putExtra("icon", item.getIcon());
+            intent.putExtra("deadlineDate", item.getDeadlineDate());
+            intent.putExtra("content", item.getContent());
+            intent.putExtra("targetNum", item.getTargetNum());
+            intent.putExtra("currNum", item.getCurrNum());
+            intent.putExtra("price", item.getPrice());
+            intent.putExtra("discountPrice", item.getDiscountPrice());
+            intent.putExtra("creationDate", item.getCreationDate());
+            intent.putExtra("itemId", item.getId());
+            startActivity(intent);
         });
 
         // Front End
@@ -114,6 +119,7 @@ public class ItemListActivity extends AppCompatActivity {
         });
     }
 
+
     public void showItemList() {
         adapter = new ItemListViewAdapter();
         item_view.setAdapter(adapter);
@@ -133,8 +139,10 @@ public class ItemListActivity extends AppCompatActivity {
                 String discountPrice = dataSnapshot.child("discountPrice").getValue().toString();
                 String creationDate = dataSnapshot.child("creationDate").getValue().toString();
 
-                adapter.addItem(id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
-                adapter.notifyDataSetChanged();
+                if(!IsOverDeadLineDate(id, deadlineDate)) {
+                    adapter.addItem(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -159,6 +167,41 @@ public class ItemListActivity extends AppCompatActivity {
         });
 
     }
+    public boolean IsOverDeadLineDate(String id, String deadlineDate) {
+        int cmpYear = Integer.valueOf(deadlineDate.split(" ")[0].replace("년", ""));
+        int cmpMonth = Integer.valueOf(deadlineDate.split(" ")[1].replace("월", ""));
+        int cmpDay = Integer.valueOf(deadlineDate.split(" ")[2].replace("일", ""));
+        int currYear = LocalDate.now().getYear();
+        int currMonth = LocalDate.now().getMonthValue();
+        int currDay = LocalDate.now().getDayOfMonth();
+        if (cmpYear <= currYear && cmpMonth <= currMonth && cmpDay < currDay) {
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = firebaseDatabase.getReference("item_list").child(id);
+            databaseReference.removeValue();
+
+            //user_purchase순회하면서 해당 아이템 들어간 product들 지우기
+            FirebaseDatabase.getInstance().getReference().child("user_purchase").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if (id.equals(snapshot.child("itemId").getValue().toString())) {
+                            DatabaseReference databaseReference = firebaseDatabase.getReference("user_purchase").child(snapshot.getKey());
+                            databaseReference.removeValue();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            return true;
+        }
+        return false;
+    }
+
     public void addPost(View v){
         Intent intent = new Intent(ItemListActivity.this, ItemRegisterActivity.class);
         startActivity(intent);

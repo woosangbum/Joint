@@ -18,19 +18,32 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ItemListViewAdapter extends BaseAdapter {
     private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
-//    Context context;
+    private ImageView imageView;
+    private TextView nameTextView;
+    private TextView deadlineDateTextView;
 
+
+//    Context context;
+//
 //    public void ListViewAdapter(Context context) {
 //        this.context = context;
 //    }
+
+    public ArrayList<Item> getItemList(){
+        return listViewItemList;
+    }
 
     @Override
     public int getCount() {
@@ -50,37 +63,31 @@ public class ItemListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listview_item, parent, false);
         }
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
-        TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
-
+        imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
+        nameTextView = (TextView) convertView.findViewById(R.id.name) ;
+        deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
 
         Item listViewItem = listViewItemList.get(position);
         nameTextView.setText(listViewItem.getName());
         deadlineDateTextView.setText(listViewItem.getDeadlineDate());
 
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        Log.d("aaaa", listViewItem.getId());
-        Log.d("aaaa", listViewItem.getIcon()); // toothpaste.png
-        Log.d("aaaa", storageRef.child(listViewItem.getIcon()).toString()); // gs://joint-287b0.appspot.com/toothpaste.png
+//        Log.d("aaaa", listViewItem.getId());
+//        Log.d("aaaa", listViewItem.getIcon()); // toothpaste.png
+//        Log.d("aaaa", storageRef.child(listViewItem.getIcon()).toString()); // gs://joint-287b0.appspot.com/toothpaste.png
 
         storageRef.child(listViewItem.getIcon()).getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Log.d("aaaa", listViewItem.getIcon());
-                        Glide.with(context.getApplicationContext())
-                                .load(uri)
-                                .into(imageView);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.d("aaaa", "이미지 불러오기 실패");
-                        Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
-                    }
+                .addOnSuccessListener(uri -> {
+//                        Log.d("aaaa", listViewItem.getIcon());
+                    Glide.with(context.getApplicationContext())
+                            .load(uri)
+                            .into(imageView);
+                }).addOnFailureListener(exception -> {
+//                        Log.d("aaaa", "이미지 불러오기 실패");
+                    Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
                 });
         if(listViewItem.getCurrNum().equals(listViewItem.getTargetNum())){
             convertView.setBackgroundColor(Color.GRAY);

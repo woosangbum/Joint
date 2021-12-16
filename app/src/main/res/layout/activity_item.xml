@@ -92,7 +92,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buyButton"
         android:layout_width="137dp"
         android:layout_height="50dp"
         android:onClick="onClickPurchasePost"

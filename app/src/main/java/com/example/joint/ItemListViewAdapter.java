@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,8 +53,6 @@ public class ItemListViewAdapter extends BaseAdapter {
         ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
         TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
         TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
-        Button rePostButton = (Button) convertView.findViewById(R.id.rePostButton);
-        Button deleteedButton = (Button) convertView.findViewById(R.id.deleteedButton);
 
 
         Item listViewItem = listViewItemList.get(position);
@@ -85,25 +82,11 @@ public class ItemListViewAdapter extends BaseAdapter {
                         Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
                     }
                 });
-
         if(listViewItem.getCurrNum().equals(listViewItem.getTargetNum())){
             convertView.setBackgroundColor(Color.GRAY);
             nameTextView.setPaintFlags(nameTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             deadlineDateTextView.setPaintFlags(deadlineDateTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
         }
-
-        rePostButton.setOnClickListener(new Button.OnClickListener() { // 수정
-            public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
-            }
-        });
-        deleteedButton.setOnClickListener(new Button.OnClickListener() { // 삭제
-            public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(), "삭제", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
 
         return convertView;
     }

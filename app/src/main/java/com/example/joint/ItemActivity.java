@@ -49,6 +49,8 @@ public class ItemActivity extends AppCompatActivity {
 
     private static int cnt = 1;
     private int userPurchaseNum = 1;
+    private int updateCurrNum;
+    private static int noCnt = 100;
 
 
     // 물품 게시글 상세글
@@ -85,6 +87,9 @@ public class ItemActivity extends AppCompatActivity {
         productPrice = String.valueOf(Integer.parseInt(tvDiscountPrice.getText().toString()) / Integer.parseInt(tvTargetNum.getText().toString()));
         textViewComputePrice.setText(productPrice);
 
+        int prevNum = Integer.valueOf(tvCurrNum.getText().toString());
+        updateCurrNum = prevNum + userPurchaseNum;
+
         Log.d("product", tvDiscountPrice.getText().toString());
         Log.d("product", tvTargetNum.getText().toString());
         Log.d("product", productPrice);
@@ -116,6 +121,27 @@ public class ItemActivity extends AppCompatActivity {
         reference.child(id).setValue(userPurchase);
         cnt++;
 
+        DatabaseReference ref = database.getReference("item_list");
+        DatabaseReference hopperRef = ref.child(itemId);
+        Map<String, Object> hopperUpdates = new HashMap<>();
+        hopperUpdates.put("currNum",  String.valueOf(updateCurrNum));
+        hopperRef.updateChildren(hopperUpdates);
+
+        Log.d("ddd", String.valueOf(updateCurrNum));
+        Log.d("ddd", tvTargetNum.getText().toString());
+        if(updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
+            Log.d("ddd", "관리자 알림");
+            DatabaseReference reff = database.getReference("Notification");
+            DatabaseReference hopperReff = reff.child("notification" + noCnt);
+            Map<String, Object> hopperUpdate = new HashMap<>();
+            hopperUpdate.put("content",  tvName.getText().toString() + "의 목표 개수를 달성하였습니다.");
+            hopperUpdate.put("date",  purchaseDate);
+            hopperUpdate.put("studentId",  "root");
+            hopperReff.updateChildren(hopperUpdate);
+
+            noCnt++;
+        }
+
         Toast.makeText(ItemActivity.this, "구매 성공", Toast.LENGTH_SHORT).show();
         finish();
         startActivity(new Intent(getApplicationContext(), ItemListActivity.class));
@@ -142,24 +168,25 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void onClickPlusMinus(@NonNull View v) {
+        Log.d("ddddd", String.valueOf(updateCurrNum));
+        if(updateCurrNum  == Integer.parseInt(tvTargetNum.getText().toString())){
+            Toast.makeText(getApplicationContext(), "개수를 더 담을 수 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (R.id.imageViewMinus == v.getId()) {
-            if (userPurchaseNum > 1) userPurchaseNum -= 1;
+            if (userPurchaseNum > 1) {
+                userPurchaseNum -= 1;
+                updateCurrNum -= 1;
+            }
             else
                 Toast.makeText(getApplicationContext(), "더 이상 인원 수를 줄일 수 없습니다.", Toast.LENGTH_SHORT).show();
         }
         if (R.id.imageViewPlus == v.getId()) {
             userPurchaseNum += 1;
+            updateCurrNum += 1;
         }
         itemCount.setText(Integer.toString(userPurchaseNum));
 
-        int prevNum = Integer.valueOf(tvCurrNum.getText().toString());
-        int currNum = prevNum + userPurchaseNum;
-
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("item_list");
-        DatabaseReference hopperRef = ref.child(itemId);
-        Map<String, Object> hopperUpdates = new HashMap<>();
-        hopperUpdates.put("currNum",  String.valueOf(currNum));
-        hopperRef.updateChildren(hopperUpdates);
     }
 }

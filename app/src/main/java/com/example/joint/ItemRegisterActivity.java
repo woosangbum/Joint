@@ -131,7 +131,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
         String creationDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
                 LocalDate.now().getDayOfMonth() + "일 "+ LocalTime.now().getHour() + "시 " + LocalTime.now().getMinute() + "분";
 
-        if(!editTextCheck(name, content, targetNum, price, discountPrice)) return; // 입력 텍스트 체크
+
 
         Item item = new Item(id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
         reference.child(id).setValue(item);
@@ -140,6 +140,8 @@ public class ItemRegisterActivity extends AppCompatActivity {
         Log.d("uri", file.toString());
         UploadTask uploadTask = riversRef.putFile(file);
         itemListCnt++;
+
+        if(!editTextCheck(name, content, targetNum, price, discountPrice)) return; // 입력 텍스트 체크
 
         ((ItemListActivity)ItemListActivity.context).showItemList();
 
@@ -174,6 +176,12 @@ public class ItemRegisterActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(discountPrice)){
             Toast.makeText(this, "할인가를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        ImageView uploadImageView = findViewById(R.id.uploadImageView);
+        if(uploadImageView.getBackground() == null){
+            Toast.makeText(this, "사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

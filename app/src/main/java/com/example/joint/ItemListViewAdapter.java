@@ -1,6 +1,9 @@
 package com.example.joint;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -15,10 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -26,7 +35,12 @@ import java.util.ArrayList;
 
 public class ItemListViewAdapter extends BaseAdapter {
     private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
-    Context context;
+    private Activity activity;
+    public ItemListViewAdapter(Activity activity){
+        this.activity = activity;
+    }
+
+//    Context context;
 
 //    public void ListViewAdapter(Context context) {
 //        this.context = context;
@@ -64,32 +78,20 @@ public class ItemListViewAdapter extends BaseAdapter {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        String checkStudentid = PreferenceManager.getString(context, "studentId");
-        Log.d("ddd", checkStudentid);
-        if(!checkStudentid.equals("root")) {
-            editPostButton.setVisibility(View.INVISIBLE);
-            deletedButton.setVisibility(View.INVISIBLE);
-
-            editPostButton.setEnabled(false);
-            deletedButton.setEnabled(false);
-        }
+        Log.d("aaaa", listViewItem.getId());
+        Log.d("aaaa", listViewItem.getIcon()); // toothpaste.png
+        Log.d("aaaa", storageRef.child(listViewItem.getIcon()).toString()); // gs://joint-287b0.appspot.com/toothpaste.png
 
         storageRef.child(listViewItem.getIcon()).getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Log.d("aaaa", listViewItem.getIcon());
-                        Glide.with(context.getApplicationContext())
-                                .load(uri)
-                                .into(imageView);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d("aaaa", "이미지 불러오기 실패");
-                Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
+                .addOnSuccessListener(uri -> {
+                    Log.d("aaaa", listViewItem.getIcon());
+                    Glide.with(context.getApplicationContext())
+                            .load(uri)
+                            .into(imageView);
+                }).addOnFailureListener(exception -> {
+                    Log.d("aaaa", "이미지 불러오기 실패");
+                    Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
+                });
 
         if(listViewItem.getCurrNum().equals(listViewItem.getTargetNum())){
             convertView.setBackgroundColor(Color.GRAY);
@@ -102,13 +104,44 @@ public class ItemListViewAdapter extends BaseAdapter {
                 Toast.makeText(context.getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
             }
         });
-        deletedButton.setOnClickListener(new Button.OnClickListener() { // 삭제
-            public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(), "삭제", Toast.LENGTH_SHORT).show();
-            }
+
+        // 삭제
+        deletedButton.setOnClickListener(v -> {
+            androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            DialogInterface.OnClickListener delete = (dialog, which) -> {
+                Toast.makeText(context.getApplicationContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                String itemId = listViewItem.getId();
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference = firebaseDatabase.getReference("item_list").child(itemId);
+                databaseReference.removeValue();
+
+                FirebaseDatabase.getInstance().getReference().child("user_purchase").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if (itemId.equals(snapshot.child("itemId").getValue().toString())) {
+                            DatabaseReference databaseReference = firebaseDatabase.getReference("user_purchase").child(snapshot.getKey());
+                            databaseReference.removeValue();
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+            Intent intent = ((Activity)context).getIntent();
+            ((Activity)context).finish(); //현재 액티비티 종료 실시
+            ((Activity)context).overridePendingTransition(0, 0); //효과 없애기
+            ((Activity)context).startActivity(intent); //현재 액티비티 재실행 실시
+            ((Activity)context).overridePendingTransition(0, 0); //효과 없애기
+        };
+
+        DialogInterface.OnClickListener cancel = (dialog, which) -> Toast.makeText(context.getApplicationContext(), "취소 테스트", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(activity)
+           .setTitle("삭제하시겠습니까?")
+           .setPositiveButton("삭제", delete)
+           .setNegativeButton("취소", cancel)
+           .show();
         });
-
-
 
         return convertView;
     }

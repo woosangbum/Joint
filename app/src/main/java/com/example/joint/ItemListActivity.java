@@ -1,8 +1,10 @@
 package com.example.joint;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ItemListActivity extends AppCompatActivity {
+public class ItemListActivity extends AppCompatActivity{
     // 물품 리스트
     public static Context context;
 
@@ -71,6 +73,7 @@ public class ItemListActivity extends AppCompatActivity {
         showItemList();
 
         item_view.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d("setOnItemClickListener", "Clicked");
             Intent intent = new Intent( getApplicationContext(), ItemActivity.class);
 
             // intent 객체에 데이터를 실어서 보내기
@@ -85,6 +88,7 @@ public class ItemListActivity extends AppCompatActivity {
             intent.putExtra("discountPrice", item.getDiscountPrice());
             intent.putExtra("creationDate", item.getCreationDate());
             intent.putExtra("itemId", item.getId());
+            ((Activity)context).finish();
             startActivity(intent);
         });
 
@@ -120,7 +124,7 @@ public class ItemListActivity extends AppCompatActivity {
 
 
     public void showItemList() {
-        adapter = new ItemListViewAdapter();
+        adapter = new ItemListViewAdapter(this);
         item_view.setAdapter(adapter);
 
         // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
@@ -151,7 +155,6 @@ public class ItemListActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override

@@ -3,6 +3,8 @@ package com.example.joint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -39,6 +41,10 @@ public class ItemListActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
 
         context = this;
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
         //유저의 이메일 가져오기
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = userDB.getEmail().trim();
@@ -69,7 +75,6 @@ public class ItemListActivity extends AppCompatActivity {
                 intent.putExtra("discountPrice", item.getDiscountPrice());
                 intent.putExtra("creationDate", item.getCreationDate());
                 intent.putExtra("itemId", item.getId());
-
                 startActivity(intent);
             }
         });
@@ -123,7 +128,6 @@ public class ItemListActivity extends AppCompatActivity {
     public void addPost(View v){
         Intent intent = new Intent(ItemListActivity.this, ItemRegisterActivity.class);
         startActivity(intent);
-//        Toast.makeText(getApplicationContext(), "addPost 클릭", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickHome(View v){

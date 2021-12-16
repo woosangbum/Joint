@@ -107,7 +107,7 @@
     <ImageView
         android:id="@+id/imageViewMinus"
         android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_height="34dp"
         android:onClick="onClickPlusMinus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/item_count"
@@ -115,12 +115,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_content"
         app:layout_constraintVertical_bias="0.63"
-        app:srcCompat="@drawable/minus_sign" />
+        app:srcCompat="@drawable/minus_sign"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/imageViewPlus"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="26dp"
+        android:layout_height="23dp"
         android:layout_marginBottom="28dp"
         android:onClick="onClickPlusMinus"
         app:layout_constraintBottom_toTopOf="@+id/notificationButton"
@@ -129,7 +130,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_content"
         app:layout_constraintVertical_bias="0.97"
-        app:srcCompat="@drawable/plus" />
+        app:srcCompat="@drawable/plus"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/item_count"

@@ -62,11 +62,13 @@ public class UserPurchaseListViewAdapter extends BaseAdapter {
         UserPurchase listViewPurchase = listViewUserPurchaseList.get(position);
 
         String itemId = databaseReference.child("item_list").child(listViewPurchase.getItemId()).getKey();
+        String studentId = databaseReference.child("user").child(listViewPurchase.getStudentId()).getKey();
 
         databaseReference.child("item_list").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String id = dataSnapshot.getKey();
+                Log.d("purchase id", id);
                 if(id.equals(itemId)) {
                     productName = dataSnapshot.child("name").getValue().toString();
                     productIcon = dataSnapshot.child("icon").getValue().toString();

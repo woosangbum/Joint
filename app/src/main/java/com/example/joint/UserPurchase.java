@@ -5,8 +5,8 @@ public class UserPurchase {
     private String studentId; // 학번
     private String itemId; // 물품 Id
     private String productCount; // 구매 개수
-    private String productPrice; // 가격
-    private String isReceipt;
+    private String productPrice; // 물건 1개당 가격
+    private String isReceipt; // 수령 여부
     private String purchaseDate;
 
     public UserPurchase(String id, String studentId, String productId, String productCount,

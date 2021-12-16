@@ -127,10 +127,7 @@ public class ItemActivity extends AppCompatActivity {
         hopperUpdates.put("currNum",  String.valueOf(updateCurrNum));
         hopperRef.updateChildren(hopperUpdates);
 
-        Log.d("ddd", String.valueOf(updateCurrNum));
-        Log.d("ddd", tvTargetNum.getText().toString());
         if(updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
-            Log.d("ddd", "관리자 알림");
             DatabaseReference reff = database.getReference("Notification");
             DatabaseReference hopperReff = reff.child("notification" + noCnt);
             Map<String, Object> hopperUpdate = new HashMap<>();
@@ -138,8 +135,8 @@ public class ItemActivity extends AppCompatActivity {
             hopperUpdate.put("date",  purchaseDate);
             hopperUpdate.put("studentId",  "root");
             hopperReff.updateChildren(hopperUpdate);
-
             noCnt++;
+
         }
 
         Toast.makeText(ItemActivity.this, "구매 성공", Toast.LENGTH_SHORT).show();
@@ -168,7 +165,6 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void onClickPlusMinus(@NonNull View v) {
-        Log.d("ddddd", String.valueOf(updateCurrNum));
         if(updateCurrNum  == Integer.parseInt(tvTargetNum.getText().toString())){
             Toast.makeText(getApplicationContext(), "개수를 더 담을 수 없습니다.", Toast.LENGTH_SHORT).show();
             return;

@@ -36,7 +36,7 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
     String itemId;
     String itemName;
 
-    private static int notificationistCnt = 3; // id
+    private static int notificationistCnt = 1; // id
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;

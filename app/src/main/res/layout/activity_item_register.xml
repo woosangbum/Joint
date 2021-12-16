@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:privateImeOptions="defaultInputmode=korean"
             android:text="제목" />
 
         <EditText
@@ -48,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:inputType="number"
             android:hint="원"
             android:textSize="12sp" />
         <TextView
@@ -64,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:inputType="number"
             android:hint="원"
             android:textSize="12sp" />
 
@@ -87,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="목표 개수를 입력하세요."
+            android:inputType="number"
             android:textSize="13sp" />
 
     </LinearLayout>
@@ -121,6 +125,7 @@
         android:id="@+id/editItemContent"
         android:layout_width="378dp"
         android:layout_height="149dp"
+        android:privateImeOptions="defaultInputmode=korean"
         android:layout_weight="1"
         android:background="#eeeeee"
         android:hint="내용을 입력하세요."

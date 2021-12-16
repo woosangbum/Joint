@@ -67,7 +67,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     // realtime db - id, name, deadlineDate, content, targetNum, price, discountPrice
-    private static int itemListCnt = 3; // id
+    private static int itemListCnt = 1; // id
     EditText editTextName; // 제목
     TextView textDeadlineDate; // 마감일자
     EditText editTextContent; // 내용

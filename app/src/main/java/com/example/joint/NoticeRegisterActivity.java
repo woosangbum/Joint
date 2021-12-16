@@ -20,7 +20,7 @@ import java.time.LocalTime;
 
 public class NoticeRegisterActivity extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth firebaseAuth;
-    private static int noticeListCnt = 3;
+    private static int noticeListCnt = 1;
 
     //define view objects
     EditText editTextRegisterTitle; //제목

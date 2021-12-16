@@ -20,13 +20,14 @@
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.2930744848023002" />
         <entry key="app/src/main/res/layout/activity_item_details.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_item_list.xml" value="0.246875" />
-        <entry key="app/src/main/res/layout/activity_item_register.xml" value="0.13677536231884058" />
+        <entry key="app/src/main/res/layout/activity_item_register.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_join.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_loading.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_myprofile.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_notice.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_notice_list.xml" value="0.10249307479224377" />
+        <entry key="app/src/main/res/layout/activity_notice_register.xml" value="0.2520833333333333" />
         <entry key="app/src/main/res/layout/activity_notification.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.24791666666666667" />
         <entry key="app/src/main/res/layout/activity_root_order_history_list.xml" value="0.2171875" />

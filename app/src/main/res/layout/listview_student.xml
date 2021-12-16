@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.joint.CheckableLinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+<LinearLayout
         android:id="@+id/student_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,16 +55,18 @@
                 android:text="개"
                 android:textSize="15sp" />
         </LinearLayout>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBox1"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="8dp"
-            android:focusable="false"
-            android:clickable="false" />
+
+<!--        <CheckBox-->
+<!--            android:id="@+id/checkBox1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:clickable="false"-->
+<!--            android:focusable="false"/>-->
+
 
     </LinearLayout>
 
 
-</com.example.joint.CheckableLinearLayout>
+</LinearLayout>

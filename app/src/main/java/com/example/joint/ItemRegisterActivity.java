@@ -154,7 +154,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
 
         itemCnt++;
         Map<String, Object> hopperUpdateItem = new HashMap<>();
-        hopperUpdateItem.put("purchaseCnt", String.valueOf(itemCnt));
+        hopperUpdateItem.put("itemCnt", String.valueOf(itemCnt));
         refCnt.updateChildren(hopperUpdateItem);
 
         ((ItemListActivity) ItemListActivity.context).showItemList();

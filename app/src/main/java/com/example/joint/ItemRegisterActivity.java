@@ -153,6 +153,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
         UploadTask uploadTask = riversRef.putFile(file);
 
         itemCnt++;
+        PreferenceManager.setString(getApplicationContext(), "itemCnt", String.valueOf(itemCnt));
         Map<String, Object> hopperUpdateItem = new HashMap<>();
         hopperUpdateItem.put("itemCnt", String.valueOf(itemCnt));
         refCnt.updateChildren(hopperUpdateItem);

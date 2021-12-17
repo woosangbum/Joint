@@ -83,6 +83,7 @@ public class NoticeRegisterActivity extends AppCompatActivity implements View.On
         reference.child(id).setValue(noticeItem);
 
         noticeCnt++;
+        PreferenceManager.setString(getApplicationContext(), "noticeCnt", String.valueOf(noticeCnt));
         Map<String, Object> hopperUpdateNotice = new HashMap<>();
         hopperUpdateNotice.put("noticeCnt", String.valueOf(noticeCnt));
         refCnt.updateChildren(hopperUpdateNotice);

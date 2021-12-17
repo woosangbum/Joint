@@ -36,12 +36,10 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
     String itemId;
     String itemName;
 
-//    private static int notificationistCnt = 1; // id
-
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private int noCnt = 1;
     DatabaseReference ref;
+    DatabaseReference refCnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +49,7 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         ref = firebaseDatabase.getReference("notification_list");
+        refCnt = firebaseDatabase.getReference("id_cnt_list");
 
         TextView tvName = (TextView) findViewById(R.id.textView3);
         Intent intent = getIntent(); // 보내온 Intent를 얻는다
@@ -134,6 +133,8 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
     }
 
     public void onRootOrder(View view) { // 주문하기 클릭
+        int noCnt = Integer.valueOf(PreferenceManager.getString(getApplicationContext(), "notificationCnt"));
+
         ArrayList<HistoryStudent> listViewOrderList = adapter.getStudentList();
 
         if (listViewOrderList.size() == 0) {
@@ -141,16 +142,6 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
             return;
         }
 
-        DatabaseReference refCnt = firebaseDatabase.getReference("id_cnt_list");
-        refCnt.child("notificationCnt").get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e("firebase222222", "Error getting data", task.getException());
-            } else {
-                Log.d("firebase222222", String.valueOf(task.getResult().getValue()));
-                noCnt = (Integer) task.getResult().getValue();
-            }
-        });
-        Log.d("aaaaaaaaaaaaaaaa-root", String.valueOf(noCnt));
         for (HistoryStudent s : listViewOrderList) {
             DatabaseReference hopperRef = ref.child("notification" + noCnt);
             Map<String, Object> hopperUpdates = new HashMap<>();
@@ -165,8 +156,9 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
 
             hopperRef.updateChildren(hopperUpdates);
             noCnt++;
-        }
 
+        }
+        PreferenceManager.setString(getApplicationContext(), "notificationCnt", String.valueOf(noCnt));
         Map<String, Object> hopperUpdateCnt = new HashMap<>();
         hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
         refCnt.updateChildren(hopperUpdateCnt);

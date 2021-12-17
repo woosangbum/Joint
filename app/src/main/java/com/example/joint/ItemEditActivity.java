@@ -21,6 +21,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -65,7 +69,6 @@ public class ItemEditActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     // realtime db - id, name, deadlineDate, content, targetNum, price, discountPrice
-    private static int itemListCnt = 1; // id
     EditText editTextName; // 제목
     TextView textDeadlineDate; // 마감일자
     EditText editTextContent; // 내용
@@ -105,13 +108,60 @@ public class ItemEditActivity extends AppCompatActivity {
         editTextPrice = (EditText) findViewById(R.id.editPrice);
         editTextDiscountPrice = (EditText) findViewById(R.id.editDiscountPrice);
 
-
         // storage
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         photo = (ImageView)findViewById(R.id.editUploadImageView);
         storage = FirebaseStorage.getInstance();
+
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String id = dataSnapshot.getKey();
+                if(id.equals(itemId)) {
+                    editTextName.setText(dataSnapshot.child("name").getValue().toString());
+                    textDeadlineDate.setText(dataSnapshot.child("deadlineDate").getValue().toString());
+                    editTextContent.setText(dataSnapshot.child("content").getValue().toString());
+                    editTextTargetNum.setText(dataSnapshot.child("targetNum").getValue().toString());
+                    editTextPrice.setText(dataSnapshot.child("price").getValue().toString());
+                    editTextDiscountPrice.setText(dataSnapshot.child("discountPrice").getValue().toString());
+
+                    String icon = dataSnapshot.child("icon").getValue().toString();
+                    storageRef.child(icon).getDownloadUrl()
+                            .addOnSuccessListener(uri -> {
+                                Glide.with(getApplicationContext())
+                                        .load(uri)
+                                        .into(photo);
+                            }).addOnFailureListener(exception -> {
+                        Log.d("aaaa", "이미지 불러오기 실패");
+                        Toast.makeText(getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
 
     public void onEditDeadlineDateClick(View v){
         DatePickerFragment dpf = new DatePickerFragment();
@@ -121,10 +171,8 @@ public class ItemEditActivity extends AppCompatActivity {
 
     public void editRegisterItemPost(View v){
         // id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate
-        String id = "item" + String.valueOf(itemListCnt);
         String name = editTextName.getText().toString().trim();
-        String icon = "item" + String.valueOf(itemListCnt) + ".png";
-        // deadlineDate
+        String icon = itemId + ".png";
         String content = editTextContent.getText().toString().trim();
         String targetNum = editTextTargetNum.getText().toString().trim();
         String currNum = "0";
@@ -138,13 +186,12 @@ public class ItemEditActivity extends AppCompatActivity {
             return;
         }
 
-        Item item = new Item(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
-        reference.child(id).setValue(item);
+        Item item = new Item(itemId, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
+        reference.child(itemId).setValue(item);
 
-        riversRef = storageRef.child(id + ".png");
+        riversRef = storageRef.child(itemId + ".png");
         Log.d("uri", file.toString());
         UploadTask uploadTask = riversRef.putFile(file);
-        itemListCnt++;
 
         ((ItemListActivity) ItemListActivity.context).showItemList();
 

@@ -66,11 +66,19 @@ public class ItemActivity extends AppCompatActivity {
 
     private String studentId;
 
+    Button buyButton;
+    ImageView imageViewMinus;
+    ImageView imageViewPlus;
+
     // 물품 게시글 상세글
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+
+        buyButton = (Button) findViewById(R.id.buyButton);
+        imageViewMinus = findViewById(R.id.imageViewMinus);
+        imageViewPlus = findViewById(R.id.imageViewPlus);
 
         database = FirebaseDatabase.getInstance();
         refPur = database.getReference("user_purchase");
@@ -105,7 +113,6 @@ public class ItemActivity extends AppCompatActivity {
         tvCreationDate.setText(intent.getStringExtra("creationDate"));
         itemId = intent.getStringExtra("itemId");
 
-
         productPrice = String.valueOf(Integer.parseInt(tvDiscountPrice.getText().toString()) / Integer.parseInt(tvTargetNum.getText().toString()));
         textViewComputePrice.setText(productPrice);
 
@@ -117,11 +124,7 @@ public class ItemActivity extends AppCompatActivity {
         Log.d("product", productPrice);
         Log.d("product", itemId);
 
-        if (studentId.equals("root")) {
-            Button buyButton = (Button) findViewById(R.id.buyButton);
-            ImageView imageViewMinus = findViewById(R.id.imageViewMinus);
-            ImageView imageViewPlus = findViewById(R.id.imageViewPlus);
-
+        if (studentId.equals("root") || tvCurrNum.getText().toString().equals(tvTargetNum.getText().toString())) {
             itemCount.setVisibility(View.INVISIBLE);
             itemCount.setEnabled(false);
             imageViewPlus.setVisibility(View.INVISIBLE);

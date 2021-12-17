@@ -87,6 +87,17 @@ public class ItemListViewAdapter extends BaseAdapter {
         Button deletedButton = (Button) convertView.findViewById(R.id.deletedButton);
 
 
+        String checkStudentId = PreferenceManager.getString(context, "studentId");
+
+        if (!checkStudentId.equals("root")) {
+            editPostButton.setVisibility(View.INVISIBLE);
+            deletedButton.setVisibility(View.INVISIBLE);
+
+            editPostButton.setEnabled(false);
+            deletedButton.setEnabled(false);
+        }
+
+
         Item listViewItem = listViewItemList.get(position);
         nameTextView.setText(listViewItem.getName());
         deadlineDateTextView.setText(listViewItem.getDeadlineDate());
@@ -111,15 +122,6 @@ public class ItemListViewAdapter extends BaseAdapter {
             deadlineDateTextView.setPaintFlags(deadlineDateTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        String checkStudentId = PreferenceManager.getString(context, "studentId");
-
-        if (!checkStudentId.equals("root")) {
-            editPostButton.setVisibility(View.INVISIBLE);
-            deletedButton.setVisibility(View.INVISIBLE);
-
-            editPostButton.setEnabled(false);
-            deletedButton.setEnabled(false);
-        }
 
         editPostButton.setOnClickListener(new Button.OnClickListener() { // 수정
             public void onClick(View v) {

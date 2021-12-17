@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -57,6 +58,12 @@ public class ItemActivity extends AppCompatActivity {
     private int updateCurrNum;
     private int noCnt = 1;
 
+    FirebaseDatabase database;
+    DatabaseReference refPur;
+    DatabaseReference refItem;
+    DatabaseReference refCnt;
+    DatabaseReference refNot;
+
     private String studentId;
 
     // 물품 게시글 상세글
@@ -64,6 +71,12 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+
+        database = FirebaseDatabase.getInstance();
+        refPur = database.getReference("user_purchase");
+        refItem = database.getReference("item_list");
+        refCnt = database.getReference("id_cnt_list");
+        refNot = database.getReference("notification_list");
 
         studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
         storage = FirebaseStorage.getInstance();
@@ -130,53 +143,48 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void onClickPurchasePost(View v) {
-        String id = "product" + cnt;
+        String id = "purchase" + cnt;
         String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
         String productCount = ((TextView) findViewById(R.id.item_count)).getText().toString();
         String isReceipt = "false";
-
         String purchaseDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
                 LocalDate.now().getDayOfMonth() + "일";
+
         //id(o) , studentId, productId(o), productCount, productPrice, isReceipt, purchaseDate;
         UserPurchase userPurchase = new UserPurchase(id, studentId, itemId, productCount, productPrice, isReceipt, purchaseDate);
+        refPur.child(id).setValue(userPurchase);
+        cnt++;
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("user_purchase");
-        reference.child(id).setValue(userPurchase);
-//        cnt++;
+        DatabaseReference hopperRef = refItem.child(itemId);
+        Map<String, Object> hopperUpdateItem = new HashMap<>();
+        hopperUpdateItem.put("currNum", String.valueOf(updateCurrNum));
+        hopperRef.updateChildren(hopperUpdateItem);
 
-//        DatabaseReference ref = database.getReference("item_list");
-//        DatabaseReference hopperRef = ref.child(itemId);
-//        Map<String, Object> hopperUpdates = new HashMap<>();
-//        hopperUpdates.put("currNum", String.valueOf(updateCurrNum));
-//        hopperRef.updateChildren(hopperUpdates);
-//
-//        ref = database.getReference("id_cnt_list");
-//        ref.child("notificationCnt").get().addOnCompleteListener(task -> {
-//            if (!task.isSuccessful()) {
-//                Log.e("firebase1111111", "Error getting data", task.getException());
-//            } else {
-//                Log.d("firebase1111111", String.valueOf(task.getResult().getValue()));
-//                noCnt = (Integer) task.getResult().getValue();
-//            }
-//        });
-//        Log.d("aaaaaaaaaaaaaaaa", String.valueOf(noCnt));
-//
-//        if (updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
-//            DatabaseReference reff = database.getReference("notification_list");
-//            DatabaseReference hopperReff = reff.child("notification" + noCnt);
-//            Map<String, Object> hopperUpdate = new HashMap<>();
-//            hopperUpdate.put("content", tvName.getText().toString() + "의 목표 개수를 달성하였습니다.");
-//            hopperUpdate.put("date", purchaseDate);
-//            hopperUpdate.put("studentId", "root");
-//            hopperReff.updateChildren(hopperUpdate);
-//            noCnt++;
-//
-//            reff = database.getReference("id_cnt_list");
-//            Map<String, Object> hopperUpdateCnt = new HashMap<>();
-//            hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
-//            reff.updateChildren(hopperUpdateCnt);
-//        }
+        refCnt.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                noCnt = Integer.valueOf(snapshot.child("notificationCnt").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        if (updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
+            DatabaseReference hopperRefNot = refNot.child("notification" + noCnt);
+            Map<String, Object> hopperUpdateNot = new HashMap<>();
+            hopperUpdateNot.put("content", tvName.getText().toString() + "의 목표 개수를 달성하였습니다.");
+            hopperUpdateNot.put("date", purchaseDate);
+            hopperUpdateNot.put("studentId", "root");
+            hopperRefNot.updateChildren(hopperUpdateNot);
+            noCnt++;
+
+            Map<String, Object> hopperUpdateCnt = new HashMap<>();
+            hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
+            refCnt.updateChildren(hopperUpdateCnt);
+        }
 
         Toast.makeText(ItemActivity.this, "구매 성공", Toast.LENGTH_SHORT).show();
         finish();

@@ -114,6 +114,7 @@ public class ItemListViewAdapter extends BaseAdapter {
         editPostButton.setOnClickListener(new Button.OnClickListener() { // 수정
             public void onClick(View v) {
                 Toast.makeText(context.getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
+
             }
         });
 

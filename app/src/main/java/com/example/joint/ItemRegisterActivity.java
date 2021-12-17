@@ -205,9 +205,6 @@ public class ItemRegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_CODE) {
             file = data.getData();
-//            riversRef = storageRef.child("1.png");
-//            UploadTask uploadTask = riversRef.putFile(file);
-
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 img = BitmapFactory.decodeStream(in);

@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +46,7 @@ public class ItemListViewAdapter extends BaseAdapter {
     DatabaseReference refCnt;
     DatabaseReference refNot;
     DatabaseReference refPur;
-
+    String itemName;
     public ItemListViewAdapter(Activity activity) {
         this.activity = activity;
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -137,15 +138,42 @@ public class ItemListViewAdapter extends BaseAdapter {
                 Toast.makeText(context.getApplicationContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                 String itemId = listViewItem.getId();
 
+                FirebaseDatabase.getInstance().getReference().child("item_list").addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Log.d("ddd 1",itemId);
+                        Log.d("ddd 2", dataSnapshot.getKey());
+                        if(itemId.equals(dataSnapshot.getKey())){
+                            itemName = dataSnapshot.child("name").getValue().toString();
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 
                 //아이템리스트에서 아이템 지우기
                 refItem.child(itemId).removeValue();
-
                 noCnt = Integer.valueOf(PreferenceManager.getString(context.getApplicationContext(), "notificationCnt"));
                 Log.d("ddd noCnt", String.valueOf(noCnt));
 
                 String studentId = PreferenceManager.getString(context.getApplicationContext(), "studentId");
-                Log.d("ddd studentId", studentId);
 
                 DatabaseReference hopperRefNot = refNot.child("notification" + noCnt);
                 Map<String, Object> hopperUpdateNot = new HashMap<>();
@@ -154,10 +182,50 @@ public class ItemListViewAdapter extends BaseAdapter {
                         LocalDate.now().getDayOfMonth() + "일";
                 hopperUpdateNot.put("date", currDate);
 
-                //학생들 알림에 보내기
+                //학생들에게 알림 보내기
 //                hopperUpdateNot.put("studentId", studentId);
-                hopperRefNot.updateChildren(hopperUpdateNot);
-                noCnt++;
+                FirebaseDatabase.getInstance().getReference().child("user_purchase").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if (itemId.equals(snapshot.child("itemId").getValue().toString())) {
+                                DatabaseReference hopperRefNot = refNot.child("notification" + noCnt);
+                                String currDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " + LocalDate.now().getDayOfMonth() + "일";
+                                String toStudentId = snapshot.child("studentId").getValue().toString();
+
+
+
+//                                FirebaseDatabase.getInstance().getReference().child("item_list").addValueEventListener(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        for (DataSnapshot dataSnapshot : dataSnapshot.getChildren()) {
+//                                            if (itemId.equals(dataSnapshot.child("id").getValue().toString())) {
+//                                                itemTitle[0] = dataSnapshot.child("name").getValue().toString();
+//                                                Log.d("kkkkkkkkkkkkk", itemTitle[0]);
+//                                            }
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) { }
+//                                });
+
+
+                                Map<String, Object> hopperUpdateNot = new HashMap<>();
+                                hopperUpdateNot.put("content", itemName + " 게시글이 삭제되었습니다.");
+                                hopperUpdateNot.put("date", currDate);
+                                hopperUpdateNot.put("studentId", toStudentId);
+                                Log.d("cccccc--itemId", itemId);
+                                Log.d("cccccc--studentId", toStudentId);
+                                hopperRefNot.updateChildren(hopperUpdateNot);
+                                noCnt++;
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
+
                 PreferenceManager.setString(context.getApplicationContext(), "notificationCnt", String.valueOf(noCnt));
 
                 Map<String, Object> hopperUpdateCnt = new HashMap<>();

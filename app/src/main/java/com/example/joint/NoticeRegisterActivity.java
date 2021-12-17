@@ -17,16 +17,20 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NoticeRegisterActivity extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth firebaseAuth;
-    private static int noticeListCnt = 1;
 
     //define view objects
     EditText editTextRegisterTitle; //제목
     EditText editTextContent; //내용
 
     Button noticeRegisterPostButton; //등록 버튼
+
+    FirebaseDatabase database;
+    DatabaseReference refCnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class NoticeRegisterActivity extends AppCompatActivity implements View.On
             startActivity(new Intent(this, MainActivity.class));
         }
 
+        database = FirebaseDatabase.getInstance();
+        refCnt = database.getReference("id_cnt_list");
 
         //initializing views
         editTextRegisterTitle = (EditText) findViewById(R.id.editTextRegisterTitle);
@@ -52,9 +58,11 @@ public class NoticeRegisterActivity extends AppCompatActivity implements View.On
 
     //공지사항 게시물 등록
     private void registerNoticePost(){
+        int noticeCnt = Integer.valueOf(PreferenceManager.getString(getApplicationContext(), "noticeCnt"));
+
         String title = editTextRegisterTitle.getText().toString().trim();
         String content = editTextContent.getText().toString().trim();
-        String id = "notice" + String.valueOf(noticeListCnt);
+        String id = "notice" + String.valueOf(noticeCnt);
 
 
         if(TextUtils.isEmpty(title)){
@@ -73,7 +81,11 @@ public class NoticeRegisterActivity extends AppCompatActivity implements View.On
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("notice_list");
         reference.child(id).setValue(noticeItem);
-        noticeListCnt++;
+
+        noticeCnt++;
+        Map<String, Object> hopperUpdateNotice = new HashMap<>();
+        hopperUpdateNotice.put("noticeCnt", String.valueOf(noticeCnt));
+        refCnt.updateChildren(hopperUpdateNotice);
 
         Toast.makeText(NoticeRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
         finish();

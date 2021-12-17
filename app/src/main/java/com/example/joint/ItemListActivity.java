@@ -62,10 +62,10 @@ public class ItemListActivity extends AppCompatActivity{
         refCnt.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Log.d("bbbbbbbbbbbbb", "kkkkkkkkkkkk");
                 PreferenceManager.setString(getApplicationContext(), "itemCnt", snapshot.child("itemCnt").getValue().toString());
                 PreferenceManager.setString(getApplicationContext(), "noticeCnt", snapshot.child("noticeCnt").getValue().toString());
                 PreferenceManager.setString(getApplicationContext(), "notificationCnt", snapshot.child("notificationCnt").getValue().toString());
+                PreferenceManager.setString(getApplicationContext(), "purchaseCnt", snapshot.child("purchaseCnt").getValue().toString());
             }
 
             @Override

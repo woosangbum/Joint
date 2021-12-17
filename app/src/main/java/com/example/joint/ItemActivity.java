@@ -1,8 +1,6 @@
 package com.example.joint;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,24 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -53,10 +40,8 @@ public class ItemActivity extends AppCompatActivity {
     private String itemId;
     private String productPrice;
 
-    private static int cnt = 1;
     private int userPurchaseNum = 1;
     private int updateCurrNum;
-    private int noCnt = 1;
 
     FirebaseDatabase database;
     DatabaseReference refPur;
@@ -146,7 +131,10 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void onClickPurchasePost(View v) {
-        String id = "purchase" + cnt;
+        int noCnt = Integer.valueOf(PreferenceManager.getString(getApplicationContext(), "notificationCnt"));
+        int purCnt = Integer.valueOf(PreferenceManager.getString(getApplicationContext(), "purchaseCnt"));
+
+        String id = "purchase" + purCnt;
         String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
         String productCount = ((TextView) findViewById(R.id.item_count)).getText().toString();
         String isReceipt = "false";
@@ -156,14 +144,20 @@ public class ItemActivity extends AppCompatActivity {
         //id(o) , studentId, productId(o), productCount, productPrice, isReceipt, purchaseDate;
         UserPurchase userPurchase = new UserPurchase(id, studentId, itemId, productCount, productPrice, isReceipt, purchaseDate);
         refPur.child(id).setValue(userPurchase);
-        cnt++;
 
+        // 구매 id 업데이트
+        purCnt++;
+        PreferenceManager.setString(getApplicationContext(), "purchaseCnt", String.valueOf(purCnt));
+        Map<String, Object> hopperUpdatePur = new HashMap<>();
+        hopperUpdatePur.put("purchaseCnt", String.valueOf(purCnt));
+        refCnt.updateChildren(hopperUpdatePur);
+
+        // 아이템 현재 개수 업데이트
         DatabaseReference hopperRef = refItem.child(itemId);
         Map<String, Object> hopperUpdateItem = new HashMap<>();
         hopperUpdateItem.put("currNum", String.valueOf(updateCurrNum));
         hopperRef.updateChildren(hopperUpdateItem);
 
-        noCnt = Integer.valueOf(PreferenceManager.getString(getApplicationContext(), "notificationCnt"));
 
         if (updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
             DatabaseReference hopperRefNot = refNot.child("notification" + noCnt);

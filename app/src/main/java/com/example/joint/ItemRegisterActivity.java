@@ -36,6 +36,8 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemRegisterActivity extends AppCompatActivity {
 
@@ -69,7 +71,6 @@ public class ItemRegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     // realtime db - id, name, deadlineDate, content, targetNum, price, discountPrice
-    private static int itemListCnt = 1; // id
     EditText editTextName; // 제목
     TextView textDeadlineDate; // 마감일자
     EditText editTextContent; // 내용
@@ -87,6 +88,8 @@ public class ItemRegisterActivity extends AppCompatActivity {
     StorageReference riversRef;
     Bitmap img;
 
+    DatabaseReference refCnt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
         // realtime db
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("item_list");
+        refCnt = database.getReference("id_cnt_list");
 
         editTextName = (EditText) findViewById(R.id.editItemName);
         textDeadlineDate = findViewById(R.id.deadlineDateText);
@@ -121,10 +125,12 @@ public class ItemRegisterActivity extends AppCompatActivity {
     }
 
     public void registerItemPost(View v){
+        int itemCnt = Integer.valueOf(PreferenceManager.getString(getApplicationContext(), "itemCnt"));
+
         // id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate
-        String id = "item" + String.valueOf(itemListCnt);
+        String id = "item" + String.valueOf(itemCnt);
         String name = editTextName.getText().toString().trim();
-        String icon = "item" + String.valueOf(itemListCnt) + ".png";
+        String icon = "item" + String.valueOf(itemCnt) + ".png";
         // deadlineDate
         String content = editTextContent.getText().toString().trim();
         String targetNum = editTextTargetNum.getText().toString().trim();
@@ -145,7 +151,11 @@ public class ItemRegisterActivity extends AppCompatActivity {
         riversRef = storageRef.child(id + ".png");
         Log.d("uri", file.toString());
         UploadTask uploadTask = riversRef.putFile(file);
-        itemListCnt++;
+
+        itemCnt++;
+        Map<String, Object> hopperUpdateItem = new HashMap<>();
+        hopperUpdateItem.put("purchaseCnt", String.valueOf(itemCnt));
+        refCnt.updateChildren(hopperUpdateItem);
 
         ((ItemListActivity) ItemListActivity.context).showItemList();
 

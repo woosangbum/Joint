@@ -149,7 +149,7 @@ public class ItemActivity extends AppCompatActivity {
         hopperRef.updateChildren(hopperUpdates);
 
         if(updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
-            DatabaseReference reff = database.getReference("Notification");
+            DatabaseReference reff = database.getReference("notification_list");
             DatabaseReference hopperReff = reff.child("notification" + noCnt);
             Map<String, Object> hopperUpdate = new HashMap<>();
             hopperUpdate.put("content",  tvName.getText().toString() + "의 목표 개수를 달성하였습니다.");

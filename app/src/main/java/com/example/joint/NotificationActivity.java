@@ -82,7 +82,7 @@ public class NotificationActivity extends AppCompatActivity {
         notification_view.setAdapter(adapter);
 
         // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
-        databaseReference.child("Notification").addChildEventListener(new ChildEventListener() {
+        databaseReference.child("notification_list").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String id = dataSnapshot.getKey();

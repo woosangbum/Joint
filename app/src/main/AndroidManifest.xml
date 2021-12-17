@@ -74,6 +74,11 @@
             android:name=".RootOrderStudentListActivity"
             android:label="RootOrderStudentListActivity">
         </activity>
+        <activity
+            android:name=".ItemEditActivity"
+            android:label="ItemEditActivity">
+        </activity>
+
     </application>
 
 </manifest>

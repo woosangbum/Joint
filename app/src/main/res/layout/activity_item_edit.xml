@@ -20,7 +20,7 @@
             android:text="제목" />
 
         <EditText
-            android:id="@+id/editItemName"
+            android:id="@+id/editName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,7 +43,7 @@
             android:text="정가" />
 
         <EditText
-            android:id="@+id/editItemPrice"
+            android:id="@+id/editPrice"
             android:padding="16dp"
             android:background="#eeeeee"
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             />
 
         <EditText
-            android:id="@+id/editItemDiscountPrice"
+            android:id="@+id/editDiscountPrice"
             android:padding="16dp"
             android:background="#eeeeee"
             android:layout_width="match_parent"
@@ -83,7 +83,7 @@
             android:text="목표 개수" />
 
         <EditText
-            android:id="@+id/editItemTargetNum"
+            android:id="@+id/editTargetNum"
             android:padding="16dp"
             android:background="#eeeeee"
             android:layout_width="match_parent"
@@ -100,15 +100,15 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/deadlineButton"
+            android:id="@+id/editDeadlineButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:onClick="onDeadlineDateClick"
+            android:onClick="onEditDeadlineDateClick"
             android:text="마감일자 선택" />
 
         <TextView
-            android:id="@+id/deadlineDateText"
+            android:id="@+id/editDeadlineDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -122,7 +122,7 @@
         android:text="내용"/>
 
     <EditText
-        android:id="@+id/editItemContent"
+        android:id="@+id/editContent"
         android:layout_width="378dp"
         android:layout_height="149dp"
         android:privateImeOptions="defaultInputmode=korean"
@@ -136,18 +136,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/registerImage"
+            android:id="@+id/editRegisterImage"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="60dp"
-            android:onClick="onUploadImage"
+            android:onClick="onEditUploadImage"
             android:text="이미지 업로드"
             android:textColor="#FFFFFF" />
 
         <ImageView
-            android:id="@+id/uploadImageView"
+            android:id="@+id/editUploadImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="5dp"
@@ -156,11 +156,11 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/noticeRegisterPostButton"
+        android:id="@+id/editRegisterPostButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#C62828"
-        android:onClick="registerItemPost"
+        android:onClick="editRegisterItemPost"
         android:text="등록하기"
         android:textColor="#FFFFFF" />
 

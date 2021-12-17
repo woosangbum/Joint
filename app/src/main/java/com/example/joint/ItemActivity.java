@@ -160,17 +160,7 @@ public class ItemActivity extends AppCompatActivity {
         hopperUpdateItem.put("currNum", String.valueOf(updateCurrNum));
         hopperRef.updateChildren(hopperUpdateItem);
 
-        refCnt.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                noCnt = Integer.valueOf(snapshot.child("notificationCnt").getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        noCnt = Integer.valueOf(PreferenceManager.getString(getApplicationContext(), "notificationCnt"));
 
         if (updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
             DatabaseReference hopperRefNot = refNot.child("notification" + noCnt);
@@ -181,6 +171,7 @@ public class ItemActivity extends AppCompatActivity {
             hopperRefNot.updateChildren(hopperUpdateNot);
             noCnt++;
 
+            PreferenceManager.setString(getApplicationContext(), "notificationCnt", String.valueOf(noCnt));
             Map<String, Object> hopperUpdateCnt = new HashMap<>();
             hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
             refCnt.updateChildren(hopperUpdateCnt);

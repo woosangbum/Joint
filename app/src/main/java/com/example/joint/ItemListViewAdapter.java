@@ -40,9 +40,19 @@ public class ItemListViewAdapter extends BaseAdapter {
     private ArrayList<Item> listViewItemList = new ArrayList<Item>();
     private Activity activity;
     private int noCnt = 0;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference refItem;
+    DatabaseReference refCnt;
+    DatabaseReference refNot;
+    DatabaseReference refPur;
 
     public ItemListViewAdapter(Activity activity) {
         this.activity = activity;
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        refItem = firebaseDatabase.getReference("item_list");
+        refCnt = firebaseDatabase.getReference("id_cnt_list");
+        refNot = firebaseDatabase.getReference("notification_list");
+        refPur = firebaseDatabase.getReference("user_purchase");
     }
 
 //    Context context;
@@ -126,42 +136,40 @@ public class ItemListViewAdapter extends BaseAdapter {
             DialogInterface.OnClickListener delete = (dialog, which) -> {
                 Toast.makeText(context.getApplicationContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                 String itemId = listViewItem.getId();
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                DatabaseReference databaseReference = firebaseDatabase.getReference("item_list").child(itemId);
-                databaseReference.removeValue();
 
-                //유저에게 알림 보내기
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("id_cnt_list");
-                ref.child("notificationCnt").get().addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    } else {
-                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                        noCnt = (Integer) task.getResult().getValue();
-                    }
-                });
+                
+                //아이템리스트에서 아이템 지우기
+                refItem.child(itemId).removeValue();
+
+                noCnt = Integer.valueOf(PreferenceManager.getString(context.getApplicationContext(), "notificationCnt"));
+                Log.d("ddd noCnt", String.valueOf(noCnt));
+
                 String studentId = PreferenceManager.getString(context.getApplicationContext(), "studentId");
-                DatabaseReference reff = database.getReference("notification_list");
-                DatabaseReference hopperReff = reff.child("notification" + noCnt);
-                Map<String, Object> hopperUpdate = new HashMap<>();
-                hopperUpdate.put("content", "게시글이 삭제되었습니다.");
-                hopperUpdate.put("date", LocalDate.now());
-                hopperUpdate.put("studentId", studentId);
-                hopperReff.updateChildren(hopperUpdate);
-                noCnt++;
+                Log.d("ddd studentId", studentId);
 
-                reff = database.getReference("id_cnt_list");
+                DatabaseReference hopperRefNot = refNot.child("notification" + noCnt);
+                Map<String, Object> hopperUpdateNot = new HashMap<>();
+                hopperUpdateNot.put("content", "게시글이 삭제되었습니다.");
+                String currDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
+                        LocalDate.now().getDayOfMonth() + "일";
+                hopperUpdateNot.put("date", currDate);
+
+                //학생들 알림에 보내기
+//                hopperUpdateNot.put("studentId", studentId);
+                hopperRefNot.updateChildren(hopperUpdateNot);
+                noCnt++;
+                PreferenceManager.setString(context.getApplicationContext(), "notificationCnt", String.valueOf(noCnt));
+
                 Map<String, Object> hopperUpdateCnt = new HashMap<>();
                 hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
-                reff.updateChildren(hopperUpdateCnt);
+                refCnt.updateChildren(hopperUpdateCnt);
 
                 FirebaseDatabase.getInstance().getReference().child("user_purchase").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             if (itemId.equals(snapshot.child("itemId").getValue().toString())) {
-                                DatabaseReference databaseReference = firebaseDatabase.getReference("user_purchase").child(snapshot.getKey());
+                                DatabaseReference databaseReference = refPur.child(snapshot.getKey());
                                 databaseReference.removeValue();
                             }
                         }
@@ -170,8 +178,6 @@ public class ItemListViewAdapter extends BaseAdapter {
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
-
-
                 });
                 Intent intent = ((Activity) context).getIntent();
                 ((Activity) context).finish(); //현재 액티비티 종료 실시

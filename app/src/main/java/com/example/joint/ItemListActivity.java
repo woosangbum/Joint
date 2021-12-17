@@ -43,6 +43,7 @@ public class ItemListActivity extends AppCompatActivity{
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    DatabaseReference refCnt;
 
     // Front End (bottom_menu)
     private BottomNavigationView bottomNavigationView;
@@ -54,8 +55,28 @@ public class ItemListActivity extends AppCompatActivity{
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+        refCnt = firebaseDatabase.getReference("id_cnt_list");
 
         context = this;
+
+        refCnt.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Log.d("bbbbbbbbbbbbb", "kkkkkkkkkkkk");
+                PreferenceManager.setString(getApplicationContext(), "itemCnt", snapshot.child("itemCnt").getValue().toString());
+                PreferenceManager.setString(getApplicationContext(), "noticeCnt", snapshot.child("noticeCnt").getValue().toString());
+                PreferenceManager.setString(getApplicationContext(), "notificationCnt", snapshot.child("notificationCnt").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        Log.d("bbbbbbbbbbbbbb 1", PreferenceManager.getString(getApplicationContext(), "itemCnt"));
+//        Log.d("bbbbbbbbbbbbbb 2", PreferenceManager.getString(getApplicationContext(), "noticeCnt"));
+//        Log.d("bbbbbbbbbbbbbb 3", PreferenceManager.getString(getApplicationContext(), "notificationCnt"));
 
         //유저의 이메일 가져오기
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();

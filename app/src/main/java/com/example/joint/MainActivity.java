@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
                     if(task.isSuccessful()) {
+
                         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();;
                         String userEmail = userDB.getEmail().trim();
                         FirebaseDatabase.getInstance().getReference().child("user").addValueEventListener(new ValueEventListener() {
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         String studentId = snapshot.child("studentId").getValue().toString();
                                         PreferenceManager.setString(mContext, "studentId", studentId); // 값 저장
                                         PreferenceManager.setString(mContext, "userEmail", userEmail); // 값 저장
+
                                     }
                                 }
                             }

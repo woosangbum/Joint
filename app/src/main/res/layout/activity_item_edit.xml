@@ -7,9 +7,19 @@
     android:padding="16dp"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ibmplexsanskrbold"
+        android:text="물품등록"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -34,6 +44,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -44,36 +55,38 @@
 
         <EditText
             android:id="@+id/editPrice"
-            android:padding="16dp"
-            android:background="#eeeeee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number"
+            android:background="#eeeeee"
             android:hint="원"
+            android:inputType="number"
+            android:padding="16dp"
             android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="할인가"
-            />
+            android:text="할인가" />
 
         <EditText
             android:id="@+id/editDiscountPrice"
-            android:padding="16dp"
-            android:background="#eeeeee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number"
+            android:background="#eeeeee"
             android:hint="원"
+            android:inputType="number"
+            android:padding="16dp"
             android:textSize="12sp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -84,19 +97,21 @@
 
         <EditText
             android:id="@+id/editTargetNum"
-            android:padding="16dp"
-            android:background="#eeeeee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#eeeeee"
             android:hint="목표 개수를 입력하세요."
             android:inputType="number"
+            android:padding="16dp"
             android:textSize="13sp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <Button
@@ -115,21 +130,24 @@
             android:padding="16dp" />
 
     </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:padding="16dp"
-        android:text="내용"/>
+        android:text="내용" />
 
     <EditText
         android:id="@+id/editContent"
         android:layout_width="378dp"
         android:layout_height="149dp"
-        android:privateImeOptions="defaultInputmode=korean"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:background="#eeeeee"
         android:hint="내용을 입력하세요."
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:privateImeOptions="defaultInputmode=korean" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -159,7 +177,8 @@
         android:id="@+id/editRegisterPostButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#C62828"
+        android:layout_marginTop="10dp"
+        android:background="#CC8A43"
         android:onClick="editRegisterItemPost"
         android:text="등록하기"
         android:textColor="#FFFFFF" />

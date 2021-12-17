@@ -3,12 +3,15 @@ package com.example.joint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,9 +24,12 @@ public class RootOrderHistoryActivity extends AppCompatActivity {
     private ListView order_view;
     RootOrderAdapter adapter;
 
+
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+    // Front End (bottom_menu)
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,35 @@ public class RootOrderHistoryActivity extends AppCompatActivity {
 //                intent.putExtra("creationDate", item.getCreationDate());
 
                 startActivity(intent);
+            }
+        });
+
+        // Front End
+        bottomNavigationView = findViewById(R.id.bottom_menu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch(item.getItemId()){
+                    case R.id.action_home:
+                        intent = new Intent(RootOrderHistoryActivity.this, ItemListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notice:
+                        intent = new Intent(RootOrderHistoryActivity.this, NoticeListActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_profile:
+                        intent = new Intent(RootOrderHistoryActivity.this, MyprofileActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_notification:
+                        intent = new Intent(RootOrderHistoryActivity.this, NotificationActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                return true;
             }
         });
     }

@@ -31,12 +31,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemListViewAdapter extends BaseAdapter {
-    private ArrayList<Item> listViewItemList = new ArrayList<Item>() ;
+    private ArrayList<Item> listViewItemList = new ArrayList<Item>();
     private Activity activity;
-    public ItemListViewAdapter(Activity activity){
+    private int noCnt = 0;
+
+    public ItemListViewAdapter(Activity activity) {
         this.activity = activity;
     }
 
@@ -48,8 +53,9 @@ public class ItemListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return listViewItemList.size() ;
+        return listViewItemList.size();
     }
+
     public String getCountString() {
         return String.valueOf(listViewItemList.size());
     }
@@ -65,8 +71,8 @@ public class ItemListViewAdapter extends BaseAdapter {
         }
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.itemImageView);
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.name) ;
-        TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate) ;
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.name);
+        TextView deadlineDateTextView = (TextView) convertView.findViewById(R.id.deadlinedate);
         Button editPostButton = (Button) convertView.findViewById(R.id.editPostButton);
         Button deletedButton = (Button) convertView.findViewById(R.id.deletedButton);
 
@@ -85,19 +91,19 @@ public class ItemListViewAdapter extends BaseAdapter {
                             .load(uri)
                             .into(imageView);
                 }).addOnFailureListener(exception -> {
-                    Log.d("aaaa", "이미지 불러오기 실패");
-                    Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
-                });
+            Log.d("aaaa", "이미지 불러오기 실패");
+            Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
+        });
 
-        if(listViewItem.getCurrNum().equals(listViewItem.getTargetNum())){
+        if (listViewItem.getCurrNum().equals(listViewItem.getTargetNum())) {
             convertView.setBackgroundColor(Color.GRAY);
-            nameTextView.setPaintFlags(nameTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-            deadlineDateTextView.setPaintFlags(deadlineDateTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            nameTextView.setPaintFlags(nameTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            deadlineDateTextView.setPaintFlags(deadlineDateTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         String checkStudentId = PreferenceManager.getString(context, "studentId");
 
-        if(!checkStudentId.equals("root")) {
+        if (!checkStudentId.equals("root")) {
             editPostButton.setVisibility(View.INVISIBLE);
             deletedButton.setVisibility(View.INVISIBLE);
 
@@ -121,44 +127,75 @@ public class ItemListViewAdapter extends BaseAdapter {
                 DatabaseReference databaseReference = firebaseDatabase.getReference("item_list").child(itemId);
                 databaseReference.removeValue();
 
+                //유저에게 알림 보내기
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference("id_cnt_list");
+                ref.child("notificationCnt").get().addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                        noCnt = (Integer) task.getResult().getValue();
+                    }
+                });
+                String studentId = PreferenceManager.getString(context.getApplicationContext(), "studentId");
+                DatabaseReference reff = database.getReference("notification_list");
+                DatabaseReference hopperReff = reff.child("notification" + noCnt);
+                Map<String, Object> hopperUpdate = new HashMap<>();
+                hopperUpdate.put("content", "게시글이 삭제되었습니다.");
+                hopperUpdate.put("date", LocalDate.now());
+                hopperUpdate.put("studentId", studentId);
+                hopperReff.updateChildren(hopperUpdate);
+                noCnt++;
+
+                reff = database.getReference("id_cnt_list");
+                Map<String, Object> hopperUpdateCnt = new HashMap<>();
+                hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
+                reff.updateChildren(hopperUpdateCnt);
+
                 FirebaseDatabase.getInstance().getReference().child("user_purchase").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        if (itemId.equals(snapshot.child("itemId").getValue().toString())) {
-                            DatabaseReference databaseReference = firebaseDatabase.getReference("user_purchase").child(snapshot.getKey());
-                            databaseReference.removeValue();
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if (itemId.equals(snapshot.child("itemId").getValue().toString())) {
+                                DatabaseReference databaseReference = firebaseDatabase.getReference("user_purchase").child(snapshot.getKey());
+                                databaseReference.removeValue();
+                            }
                         }
                     }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-            Intent intent = ((Activity)context).getIntent();
-            ((Activity)context).finish(); //현재 액티비티 종료 실시
-            ((Activity)context).overridePendingTransition(0, 0); //효과 없애기
-            ((Activity)context).startActivity(intent); //현재 액티비티 재실행 실시
-            ((Activity)context).overridePendingTransition(0, 0); //효과 없애기
-        };
 
-        DialogInterface.OnClickListener cancel = (dialog, which) -> Toast.makeText(context.getApplicationContext(), "취소 테스트", Toast.LENGTH_SHORT).show();
-        new AlertDialog.Builder(activity)
-           .setTitle("삭제하시겠습니까?")
-           .setPositiveButton("삭제", delete)
-           .setNegativeButton("취소", cancel)
-           .show();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+
+
+                });
+                Intent intent = ((Activity) context).getIntent();
+                ((Activity) context).finish(); //현재 액티비티 종료 실시
+                ((Activity) context).overridePendingTransition(0, 0); //효과 없애기
+                ((Activity) context).startActivity(intent); //현재 액티비티 재실행 실시
+                ((Activity) context).overridePendingTransition(0, 0); //효과 없애기
+            };
+
+            DialogInterface.OnClickListener cancel = (dialog, which) -> Toast.makeText(context.getApplicationContext(), "취소 테스트", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(activity)
+                    .setTitle("삭제하시겠습니까?")
+                    .setPositiveButton("삭제", delete)
+                    .setNegativeButton("취소", cancel)
+                    .show();
         });
 
         return convertView;
     }
+
     @Override
     public long getItemId(int position) {
-        return position ;
+        return position;
     }
 
     @Override
     public Object getItem(int position) {
-        return listViewItemList.get(position) ;
+        return listViewItemList.get(position);
     }
 
     public void addItem(String id, String name, String icon, String deadlineDate,

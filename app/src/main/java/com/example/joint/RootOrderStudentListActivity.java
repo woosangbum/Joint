@@ -36,11 +36,11 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
     String itemId;
     String itemName;
 
-    private static int notificationistCnt = 1; // id
+//    private static int notificationistCnt = 1; // id
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-
+    private int noCnt = 1;
     DatabaseReference ref;
 
     @Override
@@ -75,12 +75,12 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
                 String purStudentId = dataSnapshot.child("studentId").getValue().toString();
                 String purProductCount = dataSnapshot.child("productCount").getValue().toString();
                 String isChecked = dataSnapshot.child("isReceipt").getValue().toString();
-                if(itemId.equals(purId)){
+                if (itemId.equals(purId)) {
                     databaseReference.child("user").addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                             String studentId = dataSnapshot.getKey();
-                            if(studentId.equals(purStudentId)) {
+                            if (studentId.equals(purStudentId)) {
                                 String name = dataSnapshot.child("name").getValue().toString();
                                 adapter.addItem(name, studentId, purProductCount, isChecked, id);
                                 adapter.notifyDataSetChanged();
@@ -133,29 +133,43 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
         });
     }
 
-    public void onRootOrder(View view){ // 주문하기 클릭
+    public void onRootOrder(View view) { // 주문하기 클릭
         ArrayList<HistoryStudent> listViewOrderList = adapter.getStudentList();
 
-        if(listViewOrderList.size() == 0){
+        if (listViewOrderList.size() == 0) {
             Toast.makeText(RootOrderStudentListActivity.this, "주문 실패", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        for(HistoryStudent s : listViewOrderList){
-            DatabaseReference hopperRef = ref.child("notification" + notificationistCnt);
+        DatabaseReference refCnt = firebaseDatabase.getReference("id_cnt_list");
+        refCnt.child("notificationCnt").get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase222222", "Error getting data", task.getException());
+            } else {
+                Log.d("firebase222222", String.valueOf(task.getResult().getValue()));
+                noCnt = (Integer) task.getResult().getValue();
+            }
+        });
+        Log.d("aaaaaaaaaaaaaaaa-root", String.valueOf(noCnt));
+        for (HistoryStudent s : listViewOrderList) {
+            DatabaseReference hopperRef = ref.child("notification" + noCnt);
             Map<String, Object> hopperUpdates = new HashMap<>();
 
-            String content = itemName +" 주문이 시작되었습니다.";
+            String content = itemName + " 주문이 시작되었습니다.";
             String creationDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
                     LocalDate.now().getDayOfMonth() + "일";
 
-            hopperUpdates.put("studentId",  String.valueOf(s.getStudentId()));
-            hopperUpdates.put("content",  String.valueOf(content));
-            hopperUpdates.put("date",  String.valueOf(creationDate));
+            hopperUpdates.put("studentId", String.valueOf(s.getStudentId()));
+            hopperUpdates.put("content", String.valueOf(content));
+            hopperUpdates.put("date", String.valueOf(creationDate));
 
             hopperRef.updateChildren(hopperUpdates);
-            notificationistCnt++;
+            noCnt++;
         }
+
+        Map<String, Object> hopperUpdateCnt = new HashMap<>();
+        hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
+        refCnt.updateChildren(hopperUpdateCnt);
 
         Toast.makeText(RootOrderStudentListActivity.this, "주문 성공", Toast.LENGTH_SHORT).show();
         finish();

@@ -185,11 +185,11 @@ public class ItemRegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        ImageView uploadImageView = findViewById(R.id.uploadImageView);
-        if(uploadImageView.getBackground() == null){
-            Toast.makeText(this, "사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        ImageView uploadImageView = findViewById(R.id.uploadImageView);
+//        if(uploadImageView.getBackground() == null){
+//            Toast.makeText(this, "사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
 
         return true;
     }

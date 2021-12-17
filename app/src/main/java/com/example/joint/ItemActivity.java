@@ -16,8 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +55,7 @@ public class ItemActivity extends AppCompatActivity {
     private static int cnt = 1;
     private int userPurchaseNum = 1;
     private int updateCurrNum;
-    private static int noCnt = 100;
+    private int noCnt = 1;
 
     private String studentId;
 
@@ -65,17 +67,17 @@ public class ItemActivity extends AppCompatActivity {
 
         studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
         storage = FirebaseStorage.getInstance();
-        tvName = (TextView)findViewById(R.id.item_name);
-        img = (ImageView)findViewById(R.id.item_image);
-        tvDeadlineDate = (TextView)findViewById(R.id.item_deadlineDate);
-        tvContent = (TextView)findViewById(R.id.item_content);
-        tvTargetNum = (TextView)findViewById(R.id.item_targetNum);
-        tvCurrNum = (TextView)findViewById(R.id.item_currNum);
-        tvPrice = (TextView)findViewById(R.id.item_price);
-        tvDiscountPrice = (TextView)findViewById(R.id.item_discountPrice);
-        tvCreationDate = (TextView)findViewById(R.id.item_creationDate);
-        textViewComputePrice = (TextView)findViewById(R.id.textViewComputePrice);
-        itemCount = (TextView)findViewById(R.id.item_count);
+        tvName = (TextView) findViewById(R.id.item_name);
+        img = (ImageView) findViewById(R.id.item_image);
+        tvDeadlineDate = (TextView) findViewById(R.id.item_deadlineDate);
+        tvContent = (TextView) findViewById(R.id.item_content);
+        tvTargetNum = (TextView) findViewById(R.id.item_targetNum);
+        tvCurrNum = (TextView) findViewById(R.id.item_currNum);
+        tvPrice = (TextView) findViewById(R.id.item_price);
+        tvDiscountPrice = (TextView) findViewById(R.id.item_discountPrice);
+        tvCreationDate = (TextView) findViewById(R.id.item_creationDate);
+        textViewComputePrice = (TextView) findViewById(R.id.textViewComputePrice);
+        itemCount = (TextView) findViewById(R.id.item_count);
         userPurchaseNum = Integer.parseInt(itemCount.getText().toString());
 
 
@@ -102,8 +104,8 @@ public class ItemActivity extends AppCompatActivity {
         Log.d("product", productPrice);
         Log.d("product", itemId);
 
-        if(studentId.equals("root")) {
-            Button buyButton = (Button)findViewById(R.id.buyButton);
+        if (studentId.equals("root")) {
+            Button buyButton = (Button) findViewById(R.id.buyButton);
             ImageView imageViewMinus = findViewById(R.id.imageViewMinus);
             ImageView imageViewPlus = findViewById(R.id.imageViewPlus);
 
@@ -127,13 +129,13 @@ public class ItemActivity extends AppCompatActivity {
 
     }
 
-    public void onClickPurchasePost(View v){
+    public void onClickPurchasePost(View v) {
         String id = "product" + cnt;
         String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
-        String productCount = ((TextView)findViewById(R.id.item_count)).getText().toString();
+        String productCount = ((TextView) findViewById(R.id.item_count)).getText().toString();
         String isReceipt = "false";
 
-        String purchaseDate =  LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
+        String purchaseDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
                 LocalDate.now().getDayOfMonth() + "일";
         //id(o) , studentId, productId(o), productCount, productPrice, isReceipt, purchaseDate;
         UserPurchase userPurchase = new UserPurchase(id, studentId, itemId, productCount, productPrice, isReceipt, purchaseDate);
@@ -143,23 +145,38 @@ public class ItemActivity extends AppCompatActivity {
         reference.child(id).setValue(userPurchase);
         cnt++;
 
-        DatabaseReference ref = database.getReference("item_list");
-        DatabaseReference hopperRef = ref.child(itemId);
-        Map<String, Object> hopperUpdates = new HashMap<>();
-        hopperUpdates.put("currNum",  String.valueOf(updateCurrNum));
-        hopperRef.updateChildren(hopperUpdates);
-
-        if(updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
-            DatabaseReference reff = database.getReference("notification_list");
-            DatabaseReference hopperReff = reff.child("notification" + noCnt);
-            Map<String, Object> hopperUpdate = new HashMap<>();
-            hopperUpdate.put("content",  tvName.getText().toString() + "의 목표 개수를 달성하였습니다.");
-            hopperUpdate.put("date",  purchaseDate);
-            hopperUpdate.put("studentId",  "root");
-            hopperReff.updateChildren(hopperUpdate);
-            noCnt++;
-
-        }
+//        DatabaseReference ref = database.getReference("item_list");
+//        DatabaseReference hopperRef = ref.child(itemId);
+//        Map<String, Object> hopperUpdates = new HashMap<>();
+//        hopperUpdates.put("currNum", String.valueOf(updateCurrNum));
+//        hopperRef.updateChildren(hopperUpdates);
+//
+//        ref = database.getReference("id_cnt_list");
+//        ref.child("notificationCnt").get().addOnCompleteListener(task -> {
+//            if (!task.isSuccessful()) {
+//                Log.e("firebase1111111", "Error getting data", task.getException());
+//            } else {
+//                Log.d("firebase1111111", String.valueOf(task.getResult().getValue()));
+//                noCnt = (Integer) task.getResult().getValue();
+//            }
+//        });
+//        Log.d("aaaaaaaaaaaaaaaa", String.valueOf(noCnt));
+//
+//        if (updateCurrNum == Integer.valueOf(tvTargetNum.getText().toString())) { // 목표 개수 == 현재 개수 -> 관리자 알림
+//            DatabaseReference reff = database.getReference("notification_list");
+//            DatabaseReference hopperReff = reff.child("notification" + noCnt);
+//            Map<String, Object> hopperUpdate = new HashMap<>();
+//            hopperUpdate.put("content", tvName.getText().toString() + "의 목표 개수를 달성하였습니다.");
+//            hopperUpdate.put("date", purchaseDate);
+//            hopperUpdate.put("studentId", "root");
+//            hopperReff.updateChildren(hopperUpdate);
+//            noCnt++;
+//
+//            reff = database.getReference("id_cnt_list");
+//            Map<String, Object> hopperUpdateCnt = new HashMap<>();
+//            hopperUpdateCnt.put("notificationCnt", String.valueOf(noCnt));
+//            reff.updateChildren(hopperUpdateCnt);
+//        }
 
         Toast.makeText(ItemActivity.this, "구매 성공", Toast.LENGTH_SHORT).show();
         finish();
@@ -187,7 +204,7 @@ public class ItemActivity extends AppCompatActivity {
 //    }
 
     public void onClickPlusMinus(@NonNull View v) {
-        if(updateCurrNum  == Integer.parseInt(tvTargetNum.getText().toString())){
+        if (updateCurrNum == Integer.parseInt(tvTargetNum.getText().toString())) {
             Toast.makeText(getApplicationContext(), "개수를 더 담을 수 없습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -196,8 +213,7 @@ public class ItemActivity extends AppCompatActivity {
             if (userPurchaseNum > 1) {
                 userPurchaseNum -= 1;
                 updateCurrNum -= 1;
-            }
-            else
+            } else
                 Toast.makeText(getApplicationContext(), "더 이상 인원 수를 줄일 수 없습니다.", Toast.LENGTH_SHORT).show();
         }
         if (R.id.imageViewPlus == v.getId()) {

@@ -50,7 +50,7 @@ public class RootOrderStudentListActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        ref = firebaseDatabase.getReference("Notification");
+        ref = firebaseDatabase.getReference("notification_list");
 
         TextView tvName = (TextView) findViewById(R.id.textView3);
         Intent intent = getIntent(); // 보내온 Intent를 얻는다

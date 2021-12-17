@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -83,6 +85,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageRef;
     StorageReference riversRef;
+    Bitmap img;
 
 
     @Override
@@ -133,38 +136,36 @@ public class ItemRegisterActivity extends AppCompatActivity {
 
         if(!editTextCheck(name, content, targetNum, price, discountPrice)){
             Log.d("ddddd", "실패");
+            return;
         }
-        else {
-            Item item = new Item(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
-            reference.child(id).setValue(item);
 
-            riversRef = storageRef.child(id + ".png");
-            Log.d("uri", file.toString());
-            UploadTask uploadTask = riversRef.putFile(file);
-            itemListCnt++;
+        Item item = new Item(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
+        reference.child(id).setValue(item);
 
-            ((ItemListActivity) ItemListActivity.context).showItemList();
+        riversRef = storageRef.child(id + ".png");
+        Log.d("uri", file.toString());
+        UploadTask uploadTask = riversRef.putFile(file);
+        itemListCnt++;
 
-            Toast.makeText(ItemRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
-            finish();
-            Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
+        ((ItemListActivity) ItemListActivity.context).showItemList();
+
+        Toast.makeText(ItemRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
+        finish();
+        Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
     }
 
     private boolean editTextCheck(String name, String content, String targetNum, String price, String discountPrice){
-
         if(TextUtils.isEmpty(name)){
             Toast.makeText(this, "제목을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         if(TextUtils.isEmpty(content)){
             Toast.makeText(this, "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         if(TextUtils.isEmpty(targetNum)){
             Toast.makeText(this, "목표개수를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return false;
@@ -174,7 +175,6 @@ public class ItemRegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "정가를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         if(TextUtils.isEmpty(discountPrice)){
             Toast.makeText(this, "할인가를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return false;
@@ -185,11 +185,11 @@ public class ItemRegisterActivity extends AppCompatActivity {
             return false;
         }
 
-//        ImageView uploadImageView = findViewById(R.id.uploadImageView);
-//        if(uploadImageView.getBackground() == null){
-//            Toast.makeText(this, "사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
+        if(img == null){
+            Log.d("ddddd", "사진 넣엇");
+            Toast.makeText(this, "사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
         return true;
     }
@@ -210,7 +210,7 @@ public class ItemRegisterActivity extends AppCompatActivity {
 
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
-                Bitmap img = BitmapFactory.decodeStream(in);
+                img = BitmapFactory.decodeStream(in);
                 in.close();
                 photo.setImageBitmap(img);
             } catch (Exception e){

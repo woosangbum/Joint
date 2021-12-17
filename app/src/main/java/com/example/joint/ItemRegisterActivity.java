@@ -131,25 +131,26 @@ public class ItemRegisterActivity extends AppCompatActivity {
         String creationDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
                 LocalDate.now().getDayOfMonth() + "일 "+ LocalTime.now().getHour() + "시 " + LocalTime.now().getMinute() + "분";
 
+        if(!editTextCheck(name, content, targetNum, price, discountPrice)){
+            Log.d("ddddd", "실패");
+        }
+        else {
+            Item item = new Item(id, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
+            reference.child(id).setValue(item);
 
+            riversRef = storageRef.child(id + ".png");
+            Log.d("uri", file.toString());
+            UploadTask uploadTask = riversRef.putFile(file);
+            itemListCnt++;
 
-        Item item = new Item(id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate);
-        reference.child(id).setValue(item);
+            ((ItemListActivity) ItemListActivity.context).showItemList();
 
-        riversRef = storageRef.child(id + ".png");
-        Log.d("uri", file.toString());
-        UploadTask uploadTask = riversRef.putFile(file);
-        itemListCnt++;
-
-        if(!editTextCheck(name, content, targetNum, price, discountPrice)) return; // 입력 텍스트 체크
-
-        ((ItemListActivity)ItemListActivity.context).showItemList();
-
-        Toast.makeText(ItemRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
-        finish();
-        Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+            Toast.makeText(ItemRegisterActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
+            finish();
+            Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     private boolean editTextCheck(String name, String content, String targetNum, String price, String discountPrice){
@@ -176,6 +177,11 @@ public class ItemRegisterActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(discountPrice)){
             Toast.makeText(this, "할인가를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(textDeadlineDate.getText().toString().equals("")) {
+            Toast.makeText(this, "마감일자를 선택해 주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

@@ -59,7 +59,6 @@ public class ItemListActivity extends AppCompatActivity{
 
         //유저의 이메일 가져오기
         FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = userDB.getEmail().trim();
 
         String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
 
@@ -74,7 +73,7 @@ public class ItemListActivity extends AppCompatActivity{
 
         item_view.setOnItemClickListener((parent, view, position, id) -> {
             Log.d("setOnItemClickListener", "Clicked");
-            Intent intent = new Intent( getApplicationContext(), ItemActivity.class);
+            Intent intent = new Intent(ItemListActivity.this, ItemActivity.class);
 
             // intent 객체에 데이터를 실어서 보내기
             Item item = (Item) adapter.getItem(position);
@@ -88,7 +87,7 @@ public class ItemListActivity extends AppCompatActivity{
             intent.putExtra("discountPrice", item.getDiscountPrice());
             intent.putExtra("creationDate", item.getCreationDate());
             intent.putExtra("itemId", item.getId());
-            ((Activity)context).finish();
+            finish();
             startActivity(intent);
         });
 

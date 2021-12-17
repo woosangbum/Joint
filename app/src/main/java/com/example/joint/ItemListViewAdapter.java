@@ -78,10 +78,6 @@ public class ItemListViewAdapter extends BaseAdapter {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        Log.d("aaaa", listViewItem.getId());
-        Log.d("aaaa", listViewItem.getIcon()); // toothpaste.png
-        Log.d("aaaa", storageRef.child(listViewItem.getIcon()).toString()); // gs://joint-287b0.appspot.com/toothpaste.png
-
         storageRef.child(listViewItem.getIcon()).getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     Log.d("aaaa", listViewItem.getIcon());
@@ -97,6 +93,16 @@ public class ItemListViewAdapter extends BaseAdapter {
             convertView.setBackgroundColor(Color.GRAY);
             nameTextView.setPaintFlags(nameTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             deadlineDateTextView.setPaintFlags(deadlineDateTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+        String checkStudentId = PreferenceManager.getString(context, "studentId");
+
+        if(!checkStudentId.equals("root")) {
+            editPostButton.setVisibility(View.INVISIBLE);
+            deletedButton.setVisibility(View.INVISIBLE);
+
+            editPostButton.setEnabled(false);
+            deletedButton.setEnabled(false);
         }
 
         editPostButton.setOnClickListener(new Button.OnClickListener() { // 수정

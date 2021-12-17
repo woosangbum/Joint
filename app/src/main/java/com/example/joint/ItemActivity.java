@@ -90,6 +90,7 @@ public class ItemActivity extends AppCompatActivity {
         tvCreationDate.setText(intent.getStringExtra("creationDate"));
         itemId = intent.getStringExtra("itemId");
 
+
         productPrice = String.valueOf(Integer.parseInt(tvDiscountPrice.getText().toString()) / Integer.parseInt(tvTargetNum.getText().toString()));
         textViewComputePrice.setText(productPrice);
 

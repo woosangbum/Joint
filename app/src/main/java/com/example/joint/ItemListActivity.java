@@ -58,7 +58,6 @@ public class ItemListActivity extends AppCompatActivity{
         refCnt = firebaseDatabase.getReference("id_cnt_list");
 
         context = this;
-
         refCnt.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,15 +73,7 @@ public class ItemListActivity extends AppCompatActivity{
             }
         });
 
-//        Log.d("bbbbbbbbbbbbbb 1", PreferenceManager.getString(getApplicationContext(), "itemCnt"));
-//        Log.d("bbbbbbbbbbbbbb 2", PreferenceManager.getString(getApplicationContext(), "noticeCnt"));
-//        Log.d("bbbbbbbbbbbbbb 3", PreferenceManager.getString(getApplicationContext(), "notificationCnt"));
-
-        //유저의 이메일 가져오기
-        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
-
         String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
-
         if(!studentId.equals("root")) {
             itemRegisterButton = findViewById(R.id.itemRegisterButton);
             itemRegisterButton.setVisibility(View.INVISIBLE);
@@ -91,7 +82,6 @@ public class ItemListActivity extends AppCompatActivity{
 
         item_view = (ListView) findViewById(R.id.itemListView);
         showItemList();
-
         item_view.setOnItemClickListener((parent, view, position, id) -> {
             Log.d("setOnItemClickListener", "Clicked");
             Intent intent = new Intent(ItemListActivity.this, ItemActivity.class);
@@ -111,7 +101,7 @@ public class ItemListActivity extends AppCompatActivity{
             finish();
             startActivity(intent);
         });
-
+        Log.d("ddddd", "2");
         // Front End
         bottomNavigationView = findViewById(R.id.bottom_menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -146,7 +136,6 @@ public class ItemListActivity extends AppCompatActivity{
     public void showItemList() {
         adapter = new ItemListViewAdapter(this);
         item_view.setAdapter(adapter);
-
         // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
         databaseReference.child("item_list").addChildEventListener(new ChildEventListener() {
             @Override
@@ -187,7 +176,6 @@ public class ItemListActivity extends AppCompatActivity{
 
             }
         });
-
     }
     public boolean IsOverDeadLineDate(String id, String deadlineDate) {
         int cmpYear = Integer.valueOf(deadlineDate.split(" ")[0].replace("년", ""));

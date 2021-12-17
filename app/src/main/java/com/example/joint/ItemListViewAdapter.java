@@ -56,7 +56,6 @@ public class ItemListViewAdapter extends BaseAdapter {
     }
 
 //    Context context;
-
 //    public void ListViewAdapter(Context context) {
 //        this.context = context;
 //    }
@@ -96,7 +95,6 @@ public class ItemListViewAdapter extends BaseAdapter {
             editPostButton.setEnabled(false);
             deletedButton.setEnabled(false);
         }
-
 
         Item listViewItem = listViewItemList.get(position);
         nameTextView.setText(listViewItem.getName());

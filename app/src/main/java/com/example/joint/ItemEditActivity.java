@@ -189,9 +189,11 @@ public class ItemEditActivity extends AppCompatActivity {
         Item item = new Item(itemId, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
         reference.child(itemId).setValue(item);
 
-        riversRef = storageRef.child(itemId + ".png");
-        Log.d("uri", file.toString());
-        UploadTask uploadTask = riversRef.putFile(file);
+        if(img != null) {
+            riversRef = storageRef.child(itemId + ".png");
+            Log.d("uri", file.toString());
+            UploadTask uploadTask = riversRef.putFile(file);
+        }
 
         ((ItemListActivity) ItemListActivity.context).showItemList();
 
@@ -226,16 +228,16 @@ public class ItemEditActivity extends AppCompatActivity {
             return false;
         }
 
-        if(textDeadlineDate.getText().toString().equals("")) {
-            Toast.makeText(this, "마감일자를 선택해 주세요.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if(textDeadlineDate.getText().toString().equals("")) {
+//            Toast.makeText(this, "마감일자를 선택해 주세요.", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
 
-        if(img == null){
-            Log.d("ddddd", "사진 넣엇");
-            Toast.makeText(this, "사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if(img == null){
+//            Log.d("ddddd", "사진 넣엇");
+//            Toast.makeText(this, "사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
 
         return true;
     }

@@ -68,16 +68,16 @@ public class MyprofileActivity extends AppCompatActivity implements View.OnClick
         //관리자이면 주문내역 버튼과 이름만 보이도록(이메일, 핸드폰 번호 제외) 설정 변경
         if(studentId.equals("root")) {
             Button buttonOrder = findViewById(R.id.buttonOrder);
-            TextView textView7 = findViewById(R.id.textView7);
-            TextView textView8 = findViewById(R.id.textView8);
+//            TextView textView7 = findViewById(R.id.textView7);
+//            TextView textView8 = findViewById(R.id.textView8);
 
-            textView7.setVisibility(View.INVISIBLE);
-            textView8.setVisibility(View.INVISIBLE);
+//            textView7.setVisibility(View.INVISIBLE);
+//            textView8.setVisibility(View.INVISIBLE);
             textViewProfileEmail.setVisibility(View.INVISIBLE);
             textViewProfilePhoneNumber.setVisibility(View.INVISIBLE);
 
-            textView7.setEnabled(false);
-            textView8.setEnabled(false);
+//            textView7.setEnabled(false);
+//            textView8.setEnabled(false);
             textViewProfileEmail.setEnabled(false);
             textViewProfilePhoneNumber.setEnabled(false);
 

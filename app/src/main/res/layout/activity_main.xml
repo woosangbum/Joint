@@ -12,7 +12,7 @@
         android:layout_height="54dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="#9E4C20"
+        android:backgroundTint="#CC8A43"
         android:fontFamily="@font/ibmplexsanskrbold"
         android:text="로그인"
         android:textColor="#FFFFFF"

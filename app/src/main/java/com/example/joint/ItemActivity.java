@@ -143,7 +143,7 @@ public class ItemActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("user_purchase");
         reference.child(id).setValue(userPurchase);
-        cnt++;
+//        cnt++;
 
 //        DatabaseReference ref = database.getReference("item_list");
 //        DatabaseReference hopperRef = ref.child(itemId);

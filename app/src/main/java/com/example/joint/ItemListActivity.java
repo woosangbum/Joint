@@ -83,7 +83,7 @@ public class ItemListActivity extends AppCompatActivity{
         item_view = (ListView) findViewById(R.id.itemListView);
         showItemList();
         item_view.setOnItemClickListener((parent, view, position, id) -> {
-            Log.d("setOnItemClickListener", "Clicked");
+            Log.d("ddddd", "Clicked");
             Intent intent = new Intent(ItemListActivity.this, ItemActivity.class);
 
             // intent 객체에 데이터를 실어서 보내기

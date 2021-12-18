@@ -98,7 +98,7 @@ public class ItemListActivity extends AppCompatActivity{
             intent.putExtra("discountPrice", item.getDiscountPrice());
             intent.putExtra("creationDate", item.getCreationDate());
             intent.putExtra("itemId", item.getId());
-            finish();
+//            finish();
             startActivity(intent);
         });
         Log.d("ddddd", "2");

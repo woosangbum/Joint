@@ -181,7 +181,7 @@
         android:background="#CC8A43"
         android:onClick="editRegisterItemPost"
         android:text="등록하기"
-        android:textColor="#FFFFFF" />
+        android:textColor="#263238" />
 
 
 </LinearLayout>

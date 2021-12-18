@@ -1,5 +1,7 @@
 package com.example.joint;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ItemActivity extends AppCompatActivity {
+
     TextView tvName;
     ImageView img;
     TextView tvDeadlineDate;
@@ -60,7 +64,6 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-
         buyButton = (Button) findViewById(R.id.buyButton);
         imageViewMinus = findViewById(R.id.imageViewMinus);
         imageViewPlus = findViewById(R.id.imageViewPlus);
@@ -174,30 +177,24 @@ public class ItemActivity extends AppCompatActivity {
             refCnt.updateChildren(hopperUpdateCnt);
         }
 
-        Toast.makeText(ItemActivity.this, "구매 성공", Toast.LENGTH_SHORT).show();
-        finish();
-        startActivity(new Intent(getApplicationContext(), ItemListActivity.class));
-    }
+        DialogInterface.OnClickListener buy = (dialog, which) -> {
+            Toast.makeText(getApplicationContext(), "구매되었습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ItemActivity.this, "구매 성공", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(getApplicationContext(), ItemListActivity.class));
+        };
+        DialogInterface.OnClickListener cancel = (dialog, which) -> Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
 
-//    public void onClickHome(View v){
-//        Intent intent = new Intent(ItemActivity.this, ItemListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotice(View v){
-//        Intent intent = new Intent(ItemActivity.this, NoticeListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickMyProfile(View v){
-//        Intent intent = new Intent(ItemActivity.this, MyprofileActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotification(View v){
-//        Intent intent = new Intent(ItemActivity.this, NotificationActivity.class);
-//        startActivity(intent);
-//    }
+        new AlertDialog.Builder(this)
+                .setTitle("구매하시겠습니까?")
+                .setPositiveButton("구매", buy)
+                .setNegativeButton("취소", cancel)
+                .show();
+
+//        Toast.makeText(ItemActivity.this, "구매 성공", Toast.LENGTH_SHORT).show();
+//        finish();
+//        startActivity(new Intent(getApplicationContext(), ItemListActivity.class));
+    }
 
     public void onClickPlusMinus(@NonNull View v) {
         if (updateCurrNum == Integer.parseInt(tvTargetNum.getText().toString())) {

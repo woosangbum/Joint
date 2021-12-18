@@ -136,7 +136,6 @@ public class ItemEditActivity extends AppCompatActivity {
                                         .load(uri)
                                         .into(photo);
                             }).addOnFailureListener(exception -> {
-                        Log.d("aaaa", "이미지 불러오기 실패");
 //                        Toast.makeText(getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
                     });
                 }
@@ -175,51 +174,33 @@ public class ItemEditActivity extends AppCompatActivity {
     public void editRegisterItemPost(View v){
         // id, name, icon, deadlineDate,  content, targetNum, currNum, price, discountPrice, creationDate
         String name = editTextName.getText().toString().trim();
-        Log.d("edit name", name);
         String icon = itemId + ".png";
-        Log.d("edit itemId", itemId);
         String content = editTextContent.getText().toString().trim();
-        Log.d("edit content", content);
         String targetNum = editTextTargetNum.getText().toString().trim();
-        Log.d("edit targetNum", targetNum);
         String currNum = "0";
         String price = editTextPrice.getText().toString().trim();
-        Log.d("edit price", price);
         String discountPrice = editTextDiscountPrice.getText().toString().trim();
-        Log.d("edit discountPrice", discountPrice);
         String creationDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " +
                 LocalDate.now().getDayOfMonth() + "일 "+ LocalTime.now().getHour() + "시 " + LocalTime.now().getMinute() + "분";
-        Log.d("edit creationDate", creationDate);
 
         if(!editTextCheck(name, content, targetNum, price, discountPrice)){
-            Log.d("edit TextCheck", "실패");
             return;
         }
-        Log.d("edit deadlineDate", textDeadlineDate.getText().toString());
         Item item = new Item(itemId, name, icon, deadlineDate, content, targetNum, currNum, price, discountPrice, creationDate);
         reference.child(itemId).setValue(item);
-        Log.d("edit Test1", "실패 1");
 
         if(img != null) {
             riversRef = storageRef.child(itemId + ".png");
-            Log.d("uri", file.toString());
             UploadTask uploadTask = riversRef.putFile(file);
         }
-        Log.d("edit Test1", "실패 2");
 
         ((ItemListActivity) ItemListActivity.context).showItemList();
-        Log.d("edit Test1", "실패 3");
 
         Toast.makeText(ItemEditActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
-        Log.d("edit Test1", "실패 4");
         finish();
-        Log.d("edit Test1", "실패 5");
         Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Log.d("edit Test1", "실패 6");
         startActivity(intent);
-
-
     }
 
     private boolean editTextCheck(String name, String content, String targetNum, String price, String discountPrice){

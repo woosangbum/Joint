@@ -182,7 +182,6 @@ public class ItemListViewAdapter extends BaseAdapter {
                 hopperUpdateNot.put("date", currDate);
 
                 //학생들에게 알림 보내기
-//                hopperUpdateNot.put("studentId", studentId);
                 FirebaseDatabase.getInstance().getReference().child("user_purchase").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -192,30 +191,10 @@ public class ItemListViewAdapter extends BaseAdapter {
                                 String currDate = LocalDate.now().getYear() + "년 " + LocalDate.now().getMonthValue() + "월 " + LocalDate.now().getDayOfMonth() + "일";
                                 String toStudentId = snapshot.child("studentId").getValue().toString();
 
-
-
-//                                FirebaseDatabase.getInstance().getReference().child("item_list").addValueEventListener(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        for (DataSnapshot dataSnapshot : dataSnapshot.getChildren()) {
-//                                            if (itemId.equals(dataSnapshot.child("id").getValue().toString())) {
-//                                                itemTitle[0] = dataSnapshot.child("name").getValue().toString();
-//                                                Log.d("kkkkkkkkkkkkk", itemTitle[0]);
-//                                            }
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) { }
-//                                });
-
-
                                 Map<String, Object> hopperUpdateNot = new HashMap<>();
                                 hopperUpdateNot.put("content", itemName + " 게시글이 삭제되었습니다.");
                                 hopperUpdateNot.put("date", currDate);
                                 hopperUpdateNot.put("studentId", toStudentId);
-                                Log.d("cccccc--itemId", itemId);
-                                Log.d("cccccc--studentId", toStudentId);
                                 hopperRefNot.updateChildren(hopperUpdateNot);
                                 noCnt++;
                             }
@@ -253,7 +232,7 @@ public class ItemListViewAdapter extends BaseAdapter {
                 ((Activity) context).overridePendingTransition(0, 0); //효과 없애기
             };
 
-            DialogInterface.OnClickListener cancel = (dialog, which) -> Toast.makeText(context.getApplicationContext(), "취소 테스트", Toast.LENGTH_SHORT).show();
+            DialogInterface.OnClickListener cancel = (dialog, which) -> Toast.makeText(context.getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
             new AlertDialog.Builder(activity)
                     .setTitle("삭제하시겠습니까?")
                     .setPositiveButton("삭제", delete)

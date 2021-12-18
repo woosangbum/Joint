@@ -25,7 +25,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class NoticeListActivity extends AppCompatActivity {
-
     // 공시사항 리스트
     private ListView notice_view;
     NoticeListViewAdapter adapter;
@@ -33,20 +32,15 @@ public class NoticeListActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    //Front
+
     // Front End (bottom_menu)
     private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_list);
 
-        //유저의 이메일 가져오기
-//        FirebaseUser userDB = FirebaseAuth.getInstance().getCurrentUser();
-//        String userEmail = userDB.getEmail().trim();
-
-
-        //유저의 학번이 "root"(관리자)가 아니면 게시글 작성 버튼 숨기기
         String studentId = PreferenceManager.getString(getApplicationContext(), "studentId");
 
         if(!studentId.equals("root")) {
@@ -61,19 +55,16 @@ public class NoticeListActivity extends AppCompatActivity {
         notice_view = (ListView) findViewById(R.id.noticeListView);
         showNoticeList();
 
-        notice_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent( getApplicationContext(), NoticeActivity.class);
+        notice_view.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent( getApplicationContext(), NoticeActivity.class);
 
-                // intent 객체에 데이터를 실어서 보내기
-                NoticeItem item = (NoticeItem) adapter.getItem(position);
-                intent.putExtra("title", item.getTitle());
-                intent.putExtra("content", item.getContent());
-                intent.putExtra("date", item.getDate());
+            // intent 객체에 데이터를 실어서 보내기
+            NoticeItem item = (NoticeItem) adapter.getItem(position);
+            intent.putExtra("title", item.getTitle());
+            intent.putExtra("content", item.getContent());
+            intent.putExtra("date", item.getDate());
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
 
@@ -118,7 +109,6 @@ public class NoticeListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String id = dataSnapshot.getKey();
-//                Log.d("idddd", id);
                 String title = dataSnapshot.child("title").getValue().toString();
                 String date = dataSnapshot.child("date").getValue().toString();
                 String content = dataSnapshot.child("content").getValue().toString();
@@ -154,24 +144,4 @@ public class NoticeListActivity extends AppCompatActivity {
         Intent intent = new Intent(NoticeListActivity.this, NoticeRegisterActivity.class);
         startActivity(intent);
     }
-
-//    public void onClickHome(View v){
-//        Intent intent = new Intent(NoticeListActivity.this, ItemListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotice(View v){
-//        Intent intent = new Intent(NoticeListActivity.this, NoticeListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickMyProfile(View v){
-//        Intent intent = new Intent(NoticeListActivity.this, MyprofileActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotification(View v){
-//        Intent intent = new Intent(NoticeListActivity.this, NotificationActivity.class);
-//        startActivity(intent);
-//    }
 }

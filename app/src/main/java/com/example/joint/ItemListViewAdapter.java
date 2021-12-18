@@ -99,19 +99,17 @@ public class ItemListViewAdapter extends BaseAdapter {
 
         Item listViewItem = listViewItemList.get(position);
         nameTextView.setText(listViewItem.getName());
-        deadlineDateTextView.setText(listViewItem.getDeadlineDate());
+        deadlineDateTextView.setText("마감일 : " + listViewItem.getDeadlineDate());
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
         storageRef.child(listViewItem.getIcon()).getDownloadUrl()
                 .addOnSuccessListener(uri -> {
-                    Log.d("aaaa", listViewItem.getIcon());
                     Glide.with(context.getApplicationContext())
                             .load(uri)
                             .into(imageView);
                 }).addOnFailureListener(exception -> {
-            Log.d("aaaa", "이미지 불러오기 실패");
             Toast.makeText(context.getApplicationContext(), "이미지 실패", Toast.LENGTH_SHORT).show();
         });
 
@@ -122,12 +120,11 @@ public class ItemListViewAdapter extends BaseAdapter {
         }
 
 
-        editPostButton.setOnClickListener(new Button.OnClickListener() { // 수정
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ItemEditActivity.class);
-                intent.putExtra("itemId",listViewItem.getId());
-                context.startActivity(intent);
-            }
+        // 수정
+        editPostButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ItemEditActivity.class);
+            intent.putExtra("itemId",listViewItem.getId());
+            context.startActivity(intent);
         });
 
         // 삭제

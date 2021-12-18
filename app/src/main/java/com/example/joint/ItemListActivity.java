@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -98,10 +100,8 @@ public class ItemListActivity extends AppCompatActivity{
             intent.putExtra("discountPrice", item.getDiscountPrice());
             intent.putExtra("creationDate", item.getCreationDate());
             intent.putExtra("itemId", item.getId());
-//            finish();
             startActivity(intent);
         });
-        Log.d("ddddd", "2");
         // Front End
         bottomNavigationView = findViewById(R.id.bottom_menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -132,10 +132,10 @@ public class ItemListActivity extends AppCompatActivity{
         });
     }
 
-
     public void showItemList() {
         adapter = new ItemListViewAdapter(this);
         item_view.setAdapter(adapter);
+
         // 데이터 받아오기 및 어댑터 데이터 추가 및 삭제 등..리스너 관리
         databaseReference.child("item_list").addChildEventListener(new ChildEventListener() {
             @Override
@@ -217,23 +217,4 @@ public class ItemListActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-//    public void onClickHome(View v){
-//        Intent intent = new Intent(ItemListActivity.this, ItemListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotice(View v){
-//        Intent intent = new Intent(ItemListActivity.this, NoticeListActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickMyProfile(View v){
-//        Intent intent = new Intent(ItemListActivity.this, MyprofileActivity.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onClickNotification(View v){
-//        Intent intent = new Intent(ItemListActivity.this, NotificationActivity.class);
-//        startActivity(intent);
-//    }
 }
